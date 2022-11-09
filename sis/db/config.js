@@ -2,7 +2,7 @@ const sql = require('mssql')
 const sql_config = {
     user: 'sa',
     password: 'bae140117',
-    database: 'BASE_CARMASTER',
+    database: 'EVALUACION_VIAJEROS',
     server: 'localhost',
     pool: {
         max: 10,
