@@ -4,3 +4,9 @@
     margin-left: 1em;
     width: 2.2em;
 }
+
+
+/*Campos requeridos*/
+.coupon-input .required {
+    color: #ff0000;
+}

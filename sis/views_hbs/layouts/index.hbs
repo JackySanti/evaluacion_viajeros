@@ -17,6 +17,7 @@
 </head>
 
 <body>
+    {{!-- Barra superior --}}
     <nav class="navbar navbar-expand-lg" style="justify-content: space-between; max-width:90em;">
         <a href="https://www.cdmadero.tecnm.mx/">
             <img src="/img/itcm.png" class="logo"> 
@@ -26,7 +27,44 @@
         </a>
     </nav>
 
-    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-9">
+                <div class="">
+                    <div class="">
+                        <h2 class="">Evaluación viajeros</h2>
+                        <h2>COVID-19</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-9">
+                <div class="container">
+                    <h4>Inciar Sesión</h4>
+                    <p>¡Bienvenido de nuevo! Por favor, introduzca sus daros.</p>
+
+                    <form id="form_login">
+                        <p class="coupon-input form-row-last">
+							<label>Email</label>
+							<input id="input_correo" name="input_correo" type="text" autocomplete="off">
+						</p>
+                        <p class="coupon-input form-row-last">
+							<label>Contraseña</label>
+							<input id="input_password" name="input_password" maxlength="15" type="password" autocomplete="off">
+						</p>
+                    </form>
+
+                    <p>¿Todavía no tienes cuenta? <span>Regístrate</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{!-- Barra inferior --}}
+    <nav class="navbar fixed-bottom navbar-expand-lg navbar-light" >
+        <div class="container-fluid">
+           <p>Copyright ©. Todos los derechos reservados.</p>
+        </div>
+    </nav>
 
     {{>script}}
 </body>
