@@ -1,0 +1,81 @@
+<div class="container cnt1">
+    <form action="/" method="post" class="row" id="articulo">
+        <div class="col"> <input type="text" class="form-control" id="nomArticulo" placeholder="Nombre del Articulo">
+        </div>
+        <div class="col"> <input type="text" class="form-control" id="marca" placeholder="Marca"> </div>
+        <div class="col"> <input type="text" class="form-control" id="precio" placeholder="Precio"> </div>
+        <div class="col"> <input type="text" class="form-control" id="unidad" placeholder="Unidad"> </div>
+        <div class="col"> <input type="text" class="form-control" id="existencia" placeholder="Existencia"> </div>
+        <div class="col"> <button class="btn btnag" type="submit" onclick="nProducto(event)">Agregar</button> </div>
+    </form>
+</div>
+
+<div class="container">
+    <div class="row" id="aCambios">
+        {{> articulos}}
+    </div>
+</div>
+
+
+<div class="modal" id="editarModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Editar</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col"> <img src="img/000000.png" class="mx-auto d-block imgtop"></div>
+                        <div class="col esp">
+                            <div class="row"> <input type="text" class="form-control" id="mArticulo"
+                                    placeholder="Nombre del Articulo"> </div>
+                            <div class="row"> <input type="text" class="form-control" id="mMarca" placeholder="Marca">
+                            </div>
+                            <div class="row"> <input type="text" class="form-control" id="mPrecio" placeholder="Precio">
+                            </div>
+                            <div class="row"> <input type="text" class="form-control" id="mUnidad" placeholder="Unidad">
+                            </div>
+                            <div class="row"> <input type="text" class="form-control" id="mExistencia"
+                                    placeholder="Existencia"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btnaceptar" data-bs-dismiss="modal" onclick="actualizar()">Aceptar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="eliminarModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">¿Deseas eliminar este articulo?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container-fluid" style="text-align: right;">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btnaceptar" data-bs-dismiss="modal"
+                        onclick="borrar()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
