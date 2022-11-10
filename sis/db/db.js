@@ -1,7 +1,7 @@
 const sql = require('mssql')
 const {sql_conn} = require('./config')
 
-const test = {
+const usuario = {
     // obtenerProductos: async () => {
     //     try{
     //         let result = await sql_conn.request()
@@ -11,8 +11,16 @@ const test = {
     //         throw err
     //     }
     // } 
+    iniciarSesion: async (data) =>{
+        try{
+            console.log(data);
+            return(1)
+        } catch(err){
+            throw err
+        }
+    }
 }
 
 module.exports = {
-    test
+    usuario
 }
