@@ -2,19 +2,25 @@ const sql = require('mssql')
 const {sql_conn} = require('./config')
 
 const usuario = {
-    // obtenerProductos: async () => {
-    //     try{
-    //         let result = await sql_conn.request()
-    //         .query(`SELECT * FROM ARTICULOS WHERE ESTATUS = 1 ORDER BY ID DESC`)
-    //         return(result)
-    //     }catch(err){
-    //         throw err
-    //     }
-    // } 
-    iniciarSesion: async (data) =>{
+    iniciarSesion: async ({correo, contrasena}) =>{
         try{
-            console.log(data);
-            return(1)
+            let result = await  sql_conn.request()
+            .input('CORREO_CONSULTA', sql.VarChar, correo)
+            .query(`SELECT contrasena FROM USUARIOS WHERE correo = @CORREO_CONSULTA`);
+
+
+            if (result.rowsAffected[0] == 1) {
+                if (contrasena === result.recordset[0].contrasena) {
+                    let consulta = await sql_conn.request()
+                        .input('CORREO_CONSULTA', sql.VarChar, correo)
+                        .query(`SELECT contrasena FROM USUARIOS WHERE correo = @CORREO_CONSULTA`);
+                    return { estado: 1, mensaje: 'Preparando Sesión.', consulta: consulta};
+                } else { 
+                    return { estado: 0 , mensaje: 'Tu contraseña es incorrecta intenta de nuevo.'};
+                }
+            } else { 
+                return { estado: 0, mensaje: 'No se encontró  al usuario con las credenciales ingresadas.' }; 
+            }
         } catch(err){
             throw err
         }

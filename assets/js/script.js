@@ -9,21 +9,24 @@ function iniciar_sesion() {
         fetch('/iniciar_sesion', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formSesion)
+            body: JSON.stringify({
+                correo : formSesion.value[0],
+                contrasena: formSesion.value[1]
+            })
         })
             .then(response => response.json())
             .then(response => {
-
-                console.log(response)
-                // if (response.estado === 1) {
-                //     var btnlogin = document.getElementById('btn_login');
-                //     btnlogin.innerHTML = 'ENTRANDO...';
-                //     sweetAlert(2, 'success', `Bienvenido ${response.nombre}`, 'Preparando Sesión');
-                //     setTimeout(function () { window.location.href = '/' }, 3000)
-                // }
-                // else { sweetAlert(2, 'error', 'Acceso denegado', 'Datos no válidos'); }
+                if (response.estado === 1) {
+                    sweetAlert(2, 'success', `Bienvenido ${response.nombre}`, 'Preparando Sesión');
+                    // setTimeout(function () { window.location.href = '/' }, 3000)
+                }
+                else {
+                     sweetAlert(2, 'error', 'Acceso denegado', `${response.mensaje}`); 
+                }
             })
             .catch(error => console.error('Error:', error))
     }
-    else { return sweetAlert(1, 'warning', 'Información incompleta', 'Introduzca un correo electrónico válido'); }
+    else { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Introduzca un correo electrónico válido'); 
+    }
 }
