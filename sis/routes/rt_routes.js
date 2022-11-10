@@ -14,12 +14,10 @@ router.post('/iniciar_sesion', async (req, res) => {
                 name: result.consulta.nombre,
                 paterno: result.consulta.paterno,
                 materno: result.consulta.materno,
-                tipo: result.consulta.tipo
+                tipo: (result.consulta.tipo) ? 1  : 0
             }
-            return res.json({ estado: 1, nombre: result.consulta.NOMBRES_CONTACTO });
+            console.log(req.session.user);
         }
-
-        console.log(req.session,user);
 
         return res.json(result);
 

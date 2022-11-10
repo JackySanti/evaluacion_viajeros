@@ -6,10 +6,10 @@ const session = require('express-session');
 const app = express()
 
 const PORT = process.env.PORT || 3000
+const configuracionSesion = require('./sis/config/server_config')
 
-//PUG
-//JSX
-//HBS
+app.use(session(configuracionSesion));
+
 app.engine('hbs', hbs.express4({
     partialsDir: [`${__dirname}/sis/views_hbs/partials`, `${__dirname}/sis/views_hbs/views`],
     defaultLayout: __dirname + '/sis/views_hbs/layouts/index',
