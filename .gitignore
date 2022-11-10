@@ -3,3 +3,6 @@ node_modules
 
 evaluacion_viajeros\assets\img
 img
+
+evaluacion_viajeros\sis\db\config.js
+config
