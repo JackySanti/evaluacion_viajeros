@@ -13,8 +13,8 @@ const usuario = {
                 if (contrasena === result.recordset[0].contrasena) {
                     let consulta = await sql_conn.request()
                         .input('CORREO_CONSULTA', sql.VarChar, correo)
-                        .query(`SELECT contrasena FROM USUARIOS WHERE correo = @CORREO_CONSULTA`);
-                    return { estado: 1, mensaje: 'Preparando Sesión.', consulta: consulta};
+                        .query(`SELECT * FROM USUARIOS WHERE correo = @CORREO_CONSULTA`);
+                    return { estado: 1, mensaje: 'Preparando Sesión.', consulta: consulta.recordset[0]};
                 } else { 
                     return { estado: 0 , mensaje: 'Tu contraseña es incorrecta intenta de nuevo.'};
                 }

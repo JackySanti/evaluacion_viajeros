@@ -16,8 +16,8 @@ function iniciar_sesion() {
         })
             .then(response => response.json())
             .then(response => {
-                if (response.estado === 1) {
-                    sweetAlert(2, 'success', `Bienvenido ${response.nombre}`, 'Preparando Sesión');
+                if (response.estado == 1) {
+                    sweetAlert(2, 'success', `Bienvenido`, 'Preparando Sesión');
                     // setTimeout(function () { window.location.href = '/' }, 3000)
                 }
                 else {
