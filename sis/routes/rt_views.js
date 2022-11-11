@@ -7,6 +7,10 @@ router.get('/', (req, res) => {
     res.render('layouts/index')
 })
 
+router.get('/dashboard', (req, res) => {
+    
+})
+
 router.get('/cerrar_sesion', (req, res) => {
     req.session.destroy((error) => {
         res.redirect('/')
