@@ -7,8 +7,22 @@ router.get('/', (req, res) => {
     res.render('layouts/index')
 })
 
-router.get('/dashboard', (req, res) => {
-    
+router.get('/noticias', (req, res) => {
+    res.render('views/noticias', {
+        layout: ''
+    });
+})
+
+router.get('/identificacion', (req, res) => {
+    res.render('views/identificacion_pasajero', {
+        layout: ''
+    });
+})
+
+router.get('/contacto-personal', (req, res) => {
+    res.render('views/contacto_personal', {
+        layout: ''
+    });
 })
 
 router.get('/cerrar_sesion', (req, res) => {

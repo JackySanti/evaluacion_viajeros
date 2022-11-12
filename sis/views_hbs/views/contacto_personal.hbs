@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>Evaluación Viajeros</title>
+    {{>styles}}
+    <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>		
+</head>
+<body>
+    <div class="container-fluid">
+        {{>header}}
+
+        <h4>Contacto personal del pasajero</h4>
+        
+        <form id="form_identificacion">
+            <p class="coupon-input form-row-last">
+				<label>Nombre de la residencia</label>
+				<input id="nombre_residencia" name="nombre_residencia" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>calle</label>
+				<input id="calle" name="calle" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Número</label>
+				<input id="numero" name="numero" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Colonia</label>
+				<input id="colonia" name="colonia" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Código postal</label>
+				<input id="codigo_postal" name="codigo_postal" type="text" maxlength="10" onpaste="return false"
+				onkeypress="return validate(event)">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Provincia</label>
+				<input id="provincia" name="provincia" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>País</label>
+				<input id="pais" name="pais" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Correo electrónico</label>
+				<input id="email" name="email" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Confirma el correo electrónico</label>
+				<input id="confirmacion_email" name="confirmacion_email" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Número de teléfono primario (Código del país)</label>
+				<input id="telefono_primario" name="telefono_primario" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Número de teléfono secundario (Código del país)</label>
+				<input id="telefono_secundario" name="telefono_secundario" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Número de teléfono de un familiar o contacto (Código del país)</label>
+				<input id="telefono_primario" name="telefono_primario" type="text">
+			</p>
+            <button onclick="" type="button">Guardar</button>
+        </form>
+        
+        {{>footer}}
+    </div>
+    
+    {{>script}}
+</body>
+</html>
