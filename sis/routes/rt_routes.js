@@ -16,7 +16,6 @@ router.post('/iniciar_sesion', async (req, res) => {
                 materno: result.consulta.materno,
                 tipo: (result.consulta.tipo) ? 1  : 0
             }
-            console.log(req.session.user);
         }
 
         return res.json(result);
@@ -26,5 +25,21 @@ router.post('/iniciar_sesion', async (req, res) => {
         res.json({ estado: 0 });
     }
 })
+
+router.post('/identificacion_pasajero', async (req, res) => {
+    try{
+        let data = req.body;
+        let usuario = 1;
+
+        let result = await db.usuario.datosPersonales(usuario, data)
+
+        return res.json({estado: 1});
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
 
 module.exports = router

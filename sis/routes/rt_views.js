@@ -2,8 +2,9 @@ const express = require('express')
 const router = express.Router()
 const db = require('../db/db')
 
+const { mdwViewsSession, mdwReturnNoticias } = require('../middleware/index')
+
 router.get('/', (req, res) => {
-    console.log(req.session.user)
     res.render('layouts/index')
 })
 

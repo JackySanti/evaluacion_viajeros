@@ -42,7 +42,12 @@
 			</p>
             <p class="coupon-input form-row-last">
 				<label>Fecha de nacimiento</label>
-				<input id="edad" name="edad" type="text">
+				<div class='input-group date mb-0 datePicker' >
+					<input id="f_nacimiento" name="f_nacimiento" type='text' class="form-control form-control-sm main-search custom-height"/>
+                    <div class="input-group-append ">
+                        <span type="button" class="input-group-text py-0"><span class="fa fa-calendar"></span></span>
+	         		</div>
+				</div>
 			</p>
             <p class="coupon-input form-row-last">
 				<label>Género</label>
@@ -62,13 +67,18 @@
 			</p>
             <p class="coupon-input form-row-last">
 				<label>Fecha de expiración</label>
-				<input id="expiracion" name="expiracion" type="text">
+				<div class='input-group date mb-0 datePicker' >
+					<input id="f_expiracion" name="f_expiracion" type='text' class="form-control form-control-sm main-search custom-height"/>
+                    <div class="input-group-append ">
+                        <span type="button" class="input-group-text py-0"><span class="fa fa-calendar"></span></span>
+	         		</div>
+				</div>
 			</p>
             <p class="coupon-input form-row-last">
 				<label>Ocupación</label>
-				<input id="ocupacion" name="edad" type="text">
+				<input id="ocupacion" name="ocupacion" type="text">
 			</p>
-            <button onclick="" type="button">Guardar</button>
+            <button onclick="identificacion_pasajero()" type="button">Guardar</button>
         </form>
         
         {{>footer}}
