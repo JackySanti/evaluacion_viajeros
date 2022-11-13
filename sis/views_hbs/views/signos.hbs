@@ -16,6 +16,32 @@
 <body>
     <div class="container-fluid">
         {{>header}}
+
+        <h4>Signos</h4>
+
+        <form id="form_identificacion">
+            <p class="coupon-input form-row-last">
+				<label>Temperatura </label>
+				<input id="temperatura" name="temperatura" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Frecuenacia respiratoria</label>
+				<input id="respiratoria" name="respiratoria" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Frecuencia cardiaca</label>
+				<input id="cardiaca" name="cardiaca" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Saturación de oxígeno</label>
+				<input id="oxigeno" name="oxigeno" type="text">
+			</p>
+            <p class="coupon-input form-row-last">
+				<label>Tensión arterial</label>
+				<input id="arterial" name="arterial" type="text">
+			</p>
+            <button onclick="signos()" type="button">Guardar</button>
+        </form>
         
         {{>footer}}
     </div>

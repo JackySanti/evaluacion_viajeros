@@ -16,6 +16,91 @@
 <body>
     <div class="container-fluid">
         {{>header}}
+
+        <h4>Información Médica relacionada con COVID-19 (Sintomas)</h4>
+
+        <form id="form_condicion">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="fiebre" id="fiebre">
+                <label class="form-check-label" for="fiebre">
+                    Fiebre
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="tos" id="tos">
+                <label class="form-check-label" for="tos">
+                    Tos 
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="respirar" id="respirar">
+                <label class="form-check-label" for="respirar">
+                    Dificultad para Respirar
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="garganta" id="garganta">
+                <label class="form-check-label" for="garganta">
+                    Dolor de Garganta
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="escurrimiento" id="escurrimiento">
+                <label class="form-check-label" for="escurrimiento">
+                   Escurrimiento Nasal  
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="escalofrios" id="escalofrios">
+                <label class="form-check-label" for="escalofrios">
+                    Escalofríos
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="toracico" id="toracico">
+                <label class="form-check-label" for="toracico">
+                    Dolor Torácico 
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="general" id="general">
+                <label class="form-check-label" for="general">
+                    Malestar General
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="muscular" id="muscular">
+                <label class="form-check-label" for="muscular">
+                    Dolor Muscular
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="articular" id="articular">
+                <label class="form-check-label" for="articular">
+                    Dolor Articular 
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="diarrea" id="diarrea">
+                <label class="form-check-label" for="diarrea">
+                    Diarrea 
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="anosmia" id="anosmia">
+                <label class="form-check-label" for="anosmia">
+                    Anosmia (perdida del olfato)
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="disgeusia" id="disgeusia">
+                <label class="form-check-label" for="disgeusia">
+                    Disgeusia (perdida del gusto)
+                </label>
+            </div>  
+            
+            <button onclick="informacion_medica()" type="button">Guardar</button>
+        </form>
         
         {{>footer}}
     </div>

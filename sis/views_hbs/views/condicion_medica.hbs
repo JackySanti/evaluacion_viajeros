@@ -16,7 +16,89 @@
 <body>
     <div class="container-fluid">
         {{>header}}
-        
+            
+        <h4>Condición Médica</h4>
+
+        <form id="form_condicion">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="diabetes" id="diabetes">
+                <label class="form-check-label" for="diabetes">
+                    Diabetes
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="hipertension" id="hipertension">
+                <label class="form-check-label" for="hipertension">
+                    Hipertensión 
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="tabaquismo" id="tabaquismo">
+                <label class="form-check-label" for="tabaquismo">
+                    Tabaquismo
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="alcoholismo" id="alcoholismo">
+                <label class="form-check-label" for="alcoholismo">
+                    Alcoholismo 
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="obesiada" id="obesiada">
+                <label class="form-check-label" for="obesiada">
+                    Obesidad (IMC) 
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="vacunacion" id="vacunacion">
+                <label class="form-check-label" for="vacunacion">
+                    Vacunación
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="cardiaca" id="cardiaca">
+                <label class="form-check-label" for="cardiaca">
+                    Enfermedad Cardiaca 
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="renal" id="renal">
+                <label class="form-check-label" for="renal">
+                    Nefropatía (Enfermedad Renal) 
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="hepatica" id="hepatica">
+                <label class="form-check-label" for="hepatica">
+                    Hepatopatía (Enfermedad Hepatica)
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="pulmonar" id="pulmonar">
+                <label class="form-check-label" for="pulmonar">
+                    Enfermedad Pulmonar 
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="inmune" id="inmune">
+                <label class="form-check-label" for="inmune">
+                    Enfermedad Inmune (VIH/ Trasplante de Órgano)
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="cancer" id="cancer">
+                <label class="form-check-label" for="cancer">
+                    Cáncer
+                </label>
+            </div>  
+            <p class="coupon-input form-row-last">
+				<label>Otras enfermedades</label>
+                <textarea class="form-control" aria-label="With textarea"></textarea>
+			</p>
+            
+            <button onclick="condicion_medica()" type="button">Guardar</button>
+        </form>
         {{>footer}}
     </div>
     
