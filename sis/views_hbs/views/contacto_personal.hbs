@@ -19,13 +19,13 @@
 
         <h4>Contacto personal del pasajero</h4>
         
-        <form id="form_identificacion">
+        <form id="form_contacto">
             <p class="coupon-input form-row-last">
 				<label>Nombre de la residencia</label>
 				<input id="nombre_residencia" name="nombre_residencia" type="text">
 			</p>
             <p class="coupon-input form-row-last">
-				<label>calle</label>
+				<label>Calle</label>
 				<input id="calle" name="calle" type="text">
 			</p>
             <p class="coupon-input form-row-last">
@@ -67,9 +67,9 @@
 			</p>
             <p class="coupon-input form-row-last">
 				<label>Número de teléfono de un familiar o contacto (Código del país)</label>
-				<input id="telefono_primario" name="telefono_primario" type="text">
+				<input id="telefono_familiar" name="telefono_familiar" type="text">
 			</p>
-            <button onclick="" type="button">Guardar</button>
+            <button onclick="contacto_personal()" type="button">Guardar</button>
         </form>
         
         {{>footer}}

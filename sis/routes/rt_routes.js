@@ -32,8 +32,7 @@ router.post('/identificacion_pasajero', async (req, res) => {
         let usuario = 1;
 
         let result = await db.usuario.datosPersonales(usuario, data)
-
-        return res.json({estado: 1});
+        return res.json(result);
 
     } catch (err) {
         console.log(err)
@@ -41,5 +40,18 @@ router.post('/identificacion_pasajero', async (req, res) => {
     }
 })
 
+router.post('/contacto_personal', async (req, res) => {
+    try{
+        let data = req.body;
+        let usuario = 1;
+
+        let result = await db.usuario.contactoPersonal(usuario, data)
+        return res.json(result);
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
 
 module.exports = router

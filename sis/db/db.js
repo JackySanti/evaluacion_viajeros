@@ -41,6 +41,31 @@ const usuario = {
             .input('OCUPACION', sql.NVarChar, data.ocupacion)
             .query(`INSERT INTO DATOSPERSONALES(id_usuario, p_nacimiento, edad, f_nacimiento, pasaporte, p_validacion, f_expiracion, ocupacion, estado)
             VALUES(@IDUSUARIO, @PNACIMIENTO, @EDAD, @FNACIMIENTO, @PASAPORTE, @PVALIDACION, @FEXPIRACION, @OCUPACION, 1)`);
+            
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    contactoPersonal: async (usuario, data) => {
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('RESIDENCIA', sql.NVarChar, data.nombre_residencia)
+            .input('CALLE', sql.NVarChar, data.calle)
+            .input('NUMERO', sql.NVarChar, data.numero)
+            .input('COLONIA', sql.NVarChar, data.colonia)
+            .input('CP', sql.NVarChar, data.codigo_postal)
+            .input('PROVINCIA', sql.NVarChar, data.provincia)
+            .input('PAIS', sql.NVarChar, data.pais)
+            .input('CORREO', sql.NVarChar, data.email)
+            .input('TPRIMARIO', sql.NVarChar, data.telefono_primario)
+            .input('TSECUNDARIO', sql.NVarChar, data.telefono_secundario)
+            .input('TFAMILIAR', sql.NVarChar, data.telefono_familiar)
+            .query(`INSERT INTO CONTACTOPERSONAL(id_usuario, residencia, calle, numero, colonia, cp, provincia, pais, correo, tl_primario, tl_secundario, tl_familiar, estado)
+            VALUES(@IDUSUARIO, @RESIDENCIA, @CALLE, @NUMERO, @COLONIA, @CP, @PROVINCIA, @PAIS, @CORREO, @TPRIMARIO, @TSECUNDARIO, @TFAMILIAR, 1)`);
+           
             return {estado: 1}
         
         } catch(err){

@@ -60,7 +60,43 @@ function identificacion_pasajero() {
                 sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
             }
             else {
-                 sweetAlert(2, 'error', 'Acceso denegado', `${response.mensaje}`); 
+                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
+function contacto_personal() {
+    var formContacto = getFormulario('form_contacto');
+
+    if (formContacto.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+
+    if (validacionEmail(formContacto.value[7]) != true) {
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Introduzca un correo electrónico válido'); 
+    }
+
+    if (validacionEmail(formContacto.value[8]) != true) {
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Introduzca un correo electrónico válido'); 
+    }
+
+    if ((formContacto.value[7] == formContacto.value[8]) != true) {
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Verifica que los campos de correo electrónico coincidan.'); 
+    }
+
+    fetch('/contacto_personal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formContacto.inputsValue)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
+            }
+            else {
+                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
             }
         })
         .catch(error => console.error('Error:', error))
