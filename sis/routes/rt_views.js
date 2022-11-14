@@ -10,49 +10,64 @@ router.get('/', (req, res) => {
 
 router.get('/noticias', (req, res) => {
     res.render('views/noticias', {
-        layout: ''
+        layout: '',
+        inicio: false,
     });
 })
 
 router.get('/identificacion', (req, res) => {
     res.render('views/identificacion_pasajero', {
-        layout: ''
+        layout: '',
+        inicio: true
     });
 })
 
 router.get('/contacto-personal', (req, res) => {
     res.render('views/contacto_personal', {
-        layout: ''
+        layout: '',
+        inicio: true
     });
 })
 
 router.get('/identificacion-del-viaje', (req, res) => {
     res.render('views/informacion_viaje', {
-        layout: ''
+        layout: '',
+        inicio: true
     });
 })
 
 router.get('/condicion-medica', (req, res) => {
     res.render('views/condicion_medica', {
-        layout: ''
+        layout: '',
+        inicio: true
     });
 })
 
 router.get('/informacion-medica', (req, res) => {
     res.render('views/informacion_medica', {
-        layout: ''
+        layout: '',
+        inicio: true
     });
 })
 
 router.get('/exposicion-directa', (req, res) => {
     res.render('views/exposcion_paciente', {
-        layout: ''
+        layout: '',
+        inicio: true
     });
 })
 
 router.get('/signos', (req, res) => {
     res.render('views/signos', {
-        layout: ''
+        layout: '',
+        inicio: true
+    });
+})
+
+router.get('/comprobante-de-vacunacion', (req, res) => {
+    res.render('views/comprobante_vacunacion', {
+        layout: '',
+        inicio: true
     });
 })
 

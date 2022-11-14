@@ -3,8 +3,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-2 col-md-3 col-6 md-custom-5 d-none d-lg-block">
-                    <div class="logo">
-                        <a href=""><img src="/img/itcm.png"></a>
+                    <div>
+                        <a href="/noticias"><img class="logosecundario" src="/img/itcm.png"></a>
                     </div>
                 </div>
                 <div class="col-lg-10 col-md-9 md-custom-7">
@@ -13,8 +13,11 @@
                             <div class="main-menu-area text-center">
                                 <nav>
                                     <ul>
+                                        {{#if inicio}}
+                                            <li><a href='/noticias'>Noticias</a></li>
+                                        {{/if}}
                                         <li><a href=''>Registro</a></li>
-                                        <li><a href=''>Comprobante de vacunación</a></li>
+                                        <li><a href='/comprobante-de-vacunacion'>Comprobante de vacunación</a></li>
                                         <li><a href=''>Resultados</a></li>
                                     </ul>
                                 </nav>
@@ -22,8 +25,8 @@
                         </div>
                         <div class="col-lg-3 col-md-12 d-none d-lg-block">
                             <div class="full-setting-area setting-style-3">
-                                <div class="logo">
-                                    <a href=""><img src="/img/itcm.png"></a>
+                                <div>
+                                    <a href=""><img class="logosecundario" src="/img/itcm.png"></a>
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,23 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+*{
+    font-family: "Poppins", sans-serif;
+}
+
+/*navegacion secundaria*/
+.logosecundario{
+    margin-right: 1em;
+    margin-left: 1em;
+    width: 2.2em;
+}
+
+/*navegacion inferior*/
+footer{
+    background-color: #3C4048;
+    color: white;
+}
+
+.navinferior{
+    font-size: .7rem;
+}
