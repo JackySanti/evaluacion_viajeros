@@ -120,6 +120,107 @@ function contacto_personal() {
         .catch(error => console.error('Error:', error))
 }
 
+function identificacion_viaje() {
+    var formViaje = getFormulario('form_identificacion', ['numero_asiento', 'numero_acompanantes', 'lista_paises']);
+
+    if (formViaje.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+
+    fetch('/identificacion_viaje', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formViaje.inputsValue)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
+            }
+            else {
+                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+
+}
+
+function condicion_medica() {
+    var data = {
+        diabetes : $('#diabetes').prop('checked'),
+        hipertension : $('#hipertension').prop('checked'),
+        tabaquismo : $('#tabaquismo').prop('checked'),
+        alcholismo : $('#alcoholismo').prop('checked'),
+        obseidad : $('#obesiada').prop('checked'),
+        vacunacion : $('#vacunacion').prop('checked'),
+        e_cardiaca : $('#cardiaca').prop('checked'),
+        nefropatia : $('#renal').prop('checked'),
+        hepatopatia : $('#hepatica').prop('checked'),
+        e_pulmonar : $('#pulmonar').prop('checked'),
+        e_inmune : $('#inmune').prop('checked'),
+        cancer : $('#cancer').prop('checked'),
+        ota: $("#otra").val()
+    };
+
+    var objeto = JSON.stringify(data); 
+
+    fetch('/condicion_medica', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            objeto : objeto
+        })
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
+            }
+            else {
+                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
+function informacion_medica() {
+    var data = {
+        fiebre : $('#fiebre').prop('checked'),
+        tos: $('#tos').prop('checked'),
+        d_respirar: $('#respirar').prop('checked'),
+        d_garganta: $('#garganta').prop('checked'),
+        e_nasal: $('#escurrimiento').prop('checked') ,
+        escalofrios: $('#escurrimiento').prop('checked'),
+        d_toracico: $('#toracico').prop('checked'),
+        m_general: $('#general').prop('checked'),
+        d_muscular: $('#muscular').prop('checked'),
+        d_articular: $('#articular').prop('checked'),
+        diarrea: $('#diarrea').prop('checked'),
+        anosmia: $('#anosmia').prop('checked'),
+        disguesia: $('#disguesia').prop('checked') 
+    };
+
+    var objeto = JSON.stringify(data); 
+
+    fetch('/informacion_medica', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            objeto : objeto
+        })
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
+            }
+            else {
+                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
 function exposicion_directa(){
     var formExposicion = getFormulario('form_exposicion');
 

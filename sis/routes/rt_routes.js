@@ -54,6 +54,48 @@ router.post('/contacto_personal', async (req, res) => {
     }
 })
 
+router.post('/identificacion_viaje', async (req, res) => {
+    try{
+        let data = req.body;
+        let usuario = 1;
+
+        let result = await db.usuario.identificacionViaje(usuario, data)
+        return res.json(result);
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.post('/condicion_medica', async (req, res) => {
+    try{
+        let data = req.body;
+        let usuario = 1;
+
+        let result = await db.usuario.condicionMedica(usuario, data)
+        return res.json(result);
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.post('/informacion_medica', async (req, res) => {
+    try{
+        let data = req.body;
+        let usuario = 1;
+
+        let result = await db.usuario.informacionMedica(usuario, data)
+        return res.json(result);
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
 router.post('/exposicion_directa', async (req, res) => {
     try{
         let data = req.body;

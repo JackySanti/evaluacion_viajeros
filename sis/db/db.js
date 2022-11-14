@@ -72,11 +72,76 @@ const usuario = {
             throw err
         }
     },
+    condicionMedica:async (usuario, data)=>{
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('CONDICION', sql.Text, data.objeto)
+            .query(`INSERT INTO CONDICIONMEDICA(id_usuario, condicion, estado)
+            VALUES(@IDUSUARIO, @CONDICION, 1)`);
+
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    identificacionViaje:async (usuario, data)=>{
+        try{
+            let f_llegada = data.f_llegada.split('/').reverse().join('-');
+            let f_partida = data.f_partida.split('/').reverse().join('-');
+
+            let nasiento = (data.numero_asiento) ? data.numero_asiento : '';
+            let nacompanantes = (data.numero_acompanantes) ? data.numero_acompanantes : '';
+            let lpais = (data.lista_paises) ? data.lista_paises : '';
+
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('FLLEGADA', sql.SmallDateTime, f_llegada)
+            .input('FPARTIDA', sql.SmallDateTime, f_partida)
+            .input('UENTRADA', sql.NVarChar, data.ultima_entrada)
+            .input('USALIDA', sql.NVarChar, data.ultima_salida)
+            .input('MVIAJE', sql.NVarChar, data.modo_viaje)
+            .input('NASIENTO', sql.NVarChar, nasiento)
+            .input('NACOMPANANTES', sql.NVarChar, nacompanantes)
+            .input('ESTANCIA', sql.NVarChar, data.estancia)
+            .input('CALLE', sql.NVarChar, data.calle)
+            .input('NUMERO', sql.NVarChar, data.numero)
+            .input('COLONIA', sql.NVarChar, data.colonia)
+            .input('CP', sql.NVarChar, data.codigo_postal)
+            .input('PROVINCIA', sql.NVarChar, data.provincia)
+            .input('PAIS', sql.NVarChar, data.pais)
+            .input('MOTIVO', sql.NVarChar, data.motivo)
+            .input('LPAIS', sql.Text, lpais)
+            .query(`INSERT INTO INFORMACIONVIAJE(id_usuario, f_llegada, f_partida, cd_entrada, cd_salida, m_viaje, 
+            n_asiento, n_acomanantes, n_estancia, calle, numero, colonia, cp, provincia, pais, mtv_viaje, l_paises, estado)
+            VALUES(@IDUSUARIO, @FLLEGADA, @FPARTIDA, @UENTRADA, @USALIDA, @MVIAJE,
+            @NASIENTO, @NACOMPANANTES, @ESTANCIA, @CALLE, @NUMERO, @COLONIA, @CP, @PROVINCIA, @PAIS, @MOTIVO, @LPAIS, 1)`);
+
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    informacionMedica:async (usuario, data)=>{
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('SINTOMAS', sql.Text, data.objeto)
+            .query(`INSERT INTO INFORMACIONCOVID(id_usuario, sintomas, estado)
+            VALUES(@IDUSUARIO, @SINTOMAS, 1)`);
+
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
     exposicionDirecta: async (usuario, data) => {
         try{
             let fecha = data.fecha.split('/').reverse().join('-');
             
-            console.log(data);
             if(data.contacto == 1 && data.diagnostico == 1){
                 await sql_conn.request()
                 .input('IDUSUARIO', sql.Int, usuario)
