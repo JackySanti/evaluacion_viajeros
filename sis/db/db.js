@@ -71,6 +71,52 @@ const usuario = {
         } catch(err){
             throw err
         }
+    },
+    exposicionDirecta: async (usuario, data) => {
+        try{
+            let fecha = data.fecha.split('/').reverse().join('-');
+            
+            console.log(data);
+            if(data.contacto == 1 && data.diagnostico == 1){
+                await sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario)
+                .input('CONTACTO', sql.Bit, data.contacto)
+                .input('DIAGNOSTICO', sql.Bit, data.diagnostico)
+                .input('FECHA', sql.SmallDateTime, fecha)
+                .query(`INSERT INTO EXPOSICIONCOVID(id_usuario, contacto, diagnositco, fecha, estado)
+                VALUES(@IDUSUARIO, @CONTACTO, @DIAGNOSTICO, @FECHA, 1)`);
+            } else {
+                await sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario)
+                .input('CONTACTO', sql.Bit, data.temperatura)
+                .input('DIAGNOSTICO', sql.Bit, data.respiratoria)
+                .query(`INSERT INTO EXPOSICIONCOVID(id_usuario, contacto, diagnositco, estado)
+                VALUES(@IDUSUARIO, 0, 0, 1)`);
+            }
+           
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    signosPersonal: async (usuario, data) => {
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('TEMPERATURA', sql.NVarChar, data.temperatura)
+            .input('RESPIRATORIA', sql.NVarChar, data.respiratoria)
+            .input('CARDIACA', sql.NVarChar, data.cardiaca)
+            .input('OXIGENO', sql.NVarChar, data.oxigeno)
+            .input('ARTERIAL', sql.NVarChar, data.arterial)
+            .query(`INSERT INTO SIGNOS(id_usuario, temperatura, f_respiratoria, f_cardiaca, s_oxigeno, t_arterial, estado)
+            VALUES(@IDUSUARIO, @TEMPERATURA, @RESPIRATORIA, @CARDIACA, @OXIGENO, @ARTERIAL, 1)`);
+           
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
     }
 }
 

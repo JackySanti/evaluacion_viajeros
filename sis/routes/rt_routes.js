@@ -54,4 +54,32 @@ router.post('/contacto_personal', async (req, res) => {
     }
 })
 
+router.post('/exposicion_directa', async (req, res) => {
+    try{
+        let data = req.body;
+        let usuario = 1;
+
+        let result = await db.usuario.exposicionDirecta(usuario, data)
+        return res.json(result);
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.post('/signos_personal', async (req, res) => {
+    try{
+        let data = req.body;
+        let usuario = 1;
+
+        let result = await db.usuario.signosPersonal(usuario, data)
+        return res.json(result);
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
 module.exports = router

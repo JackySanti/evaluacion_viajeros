@@ -1,3 +1,5 @@
+let contacto = 3, diagnostico = 3;
+
 $(function () {
     $(".datePicker").datepicker({
         format: 'dd/mm/yyyy',
@@ -6,6 +8,22 @@ $(function () {
         orientation: "bottom auto",
         todayHighlight : true,
         clearBtn : true
+    });
+
+    $('#flexRadioDefault1').click(function(){
+        contacto = 1;
+    });
+
+    $('#flexRadioDefault2').click(function(){
+        contacto = 0;
+    });
+
+    $('#flexRadioDefault3').click(function(){
+        diagnostico = 1;
+    });
+
+    $('#flexRadioDefault4').click(function(){
+        diagnostico = 0;
     });
 })
 
@@ -100,4 +118,63 @@ function contacto_personal() {
             }
         })
         .catch(error => console.error('Error:', error))
+}
+
+function exposicion_directa(){
+    var formExposicion = getFormulario('form_exposicion');
+
+    if(contacto == 3 || diagnostico == 3){
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    } 
+
+    if(contacto == 1 || diagnostico == 1){
+        if (formExposicion.estado == 0) { 
+            return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+        }
+    } 
+    
+    fetch('/exposicion_directa', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            contacto: contacto,
+            diagnostico: diagnostico,
+            fecha: (formExposicion.value[2]) ? formExposicion.value[2] : ''
+        })
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
+            }
+            else {
+                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
+function signos() {
+    var formSignos = getFormulario('form_signos');
+
+    if (formSignos.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+
+    fetch('/signos_personal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formSignos.inputsValue)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
+            }
+            else {
+                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+
 }
