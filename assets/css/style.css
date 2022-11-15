@@ -6,6 +6,22 @@
 }
 
 /*navegacion secundaria*/
+ul{
+    list-style: outside none none;
+    margin: 0;
+    padding: 0
+}
+
+ul li {
+    display:inline;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+a:link, a:visited, a:active {
+    text-decoration: none;
+}
+
 .logosecundario{
     margin-right: 1em;
     margin-left: 1em;
