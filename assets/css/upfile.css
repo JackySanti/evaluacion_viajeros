@@ -1,9 +1,10 @@
 body{
-    display: flex;
+    /* display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-  }
+    min-height: 100vh; */
+}
+
   ::selection{
     color: #fff;
     background: #277BC0;

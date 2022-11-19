@@ -1,39 +1,17 @@
-<header>
-    <div class="header-top sticky-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-2 col-md-3 col-6 md-custom-5 d-none d-lg-block">
-                    <div>
-                        <a href="/noticias"><img class="logosecundario" src="/img/itcm.png"></a>
-                    </div>
-                </div>
-                <div class="col-lg-10 col-md-9 md-custom-7">
-                    <div class="row">
-                        <div class="col-lg-9 d-none d-lg-block">
-                            <div class="main-menu-area text-center">
-                                <nav>
-                                    <ul>
-                                        {{#if inicio}}
-                                            <li><a href='/noticias'>Noticias</a></li>
-                                        {{/if}}
-                                        <li><a href=''>Registro</a></li>
-                                        <li><a href='/comprobante-de-vacunacion'>Comprobante de vacunación</a></li>
-                                        <li><a href=''>Resultados</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-12 d-none d-lg-block">
-                            <div class="full-setting-area setting-style-3">
-                                <div>
-                                    <a href=""><img class="logosecundario" src="/img/itcm.png"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="noticias">
+            <img class="logosecundario" src="/img/itcm.png">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {{#if inicio}}
+                    <li><a href='/noticias'>Noticias</a></li>
+                {{/if}}
+                <li><a href=''>Registro</a></li>
+                <li><a href='/comprobante-de-vacunacion'>Comprobante de vacunación</a></li>
+                <li><a href=''>Resultados</a></li>
+            </ul>
         </div>
     </div>
-
-</header>
+</nav>
