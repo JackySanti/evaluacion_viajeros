@@ -15,6 +15,13 @@ router.get('/noticias', (req, res) => {
     });
 })
 
+router.get('/cerrar_sesion', (req, res) => {
+    req.session.destroy((error) => {
+        res.redirect('/')
+    })
+})
+
+// VISTA PARA USUARIOS
 router.get('/identificacion', (req, res) => {
     res.render('views/identificacion_pasajero', {
         layout: '',
@@ -71,11 +78,12 @@ router.get('/comprobante-de-vacunacion', (req, res) => {
     });
 })
 
-router.get('/cerrar_sesion', (req, res) => {
-    req.session.destroy((error) => {
-        res.redirect('/')
-    })
+// VISTA PARA ADMINISTRADORES
+router.get('/identificacion', (req, res) => {
+    res.render('views/identificacion_pasajero', {
+        layout: '',
+        inicio: true
+    });
 })
-
 
 module.exports = router

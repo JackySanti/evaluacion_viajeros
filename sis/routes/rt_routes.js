@@ -29,7 +29,7 @@ router.post('/iniciar_sesion', async (req, res) => {
 router.post('/identificacion_pasajero', async (req, res) => {
     try{
         let data = req.body;
-        let usuario = 1;
+        let usuario = 3;
 
         let result = await db.usuario.datosPersonales(usuario, data)
         return res.json(result);
@@ -43,7 +43,7 @@ router.post('/identificacion_pasajero', async (req, res) => {
 router.post('/contacto_personal', async (req, res) => {
     try{
         let data = req.body;
-        let usuario = 1;
+        let usuario = 3;
 
         let result = await db.usuario.contactoPersonal(usuario, data)
         return res.json(result);
@@ -57,7 +57,7 @@ router.post('/contacto_personal', async (req, res) => {
 router.post('/identificacion_viaje', async (req, res) => {
     try{
         let data = req.body;
-        let usuario = 1;
+        let usuario = 2;
 
         let result = await db.usuario.identificacionViaje(usuario, data)
         return res.json(result);
@@ -71,7 +71,7 @@ router.post('/identificacion_viaje', async (req, res) => {
 router.post('/condicion_medica', async (req, res) => {
     try{
         let data = req.body;
-        let usuario = 1;
+        let usuario = 3;
 
         let result = await db.usuario.condicionMedica(usuario, data)
         return res.json(result);
@@ -85,7 +85,7 @@ router.post('/condicion_medica', async (req, res) => {
 router.post('/informacion_medica', async (req, res) => {
     try{
         let data = req.body;
-        let usuario = 1;
+        let usuario = 3;
 
         let result = await db.usuario.informacionMedica(usuario, data)
         return res.json(result);
@@ -99,7 +99,7 @@ router.post('/informacion_medica', async (req, res) => {
 router.post('/exposicion_directa', async (req, res) => {
     try{
         let data = req.body;
-        let usuario = 1;
+        let usuario = 3;
 
         let result = await db.usuario.exposicionDirecta(usuario, data)
         return res.json(result);
@@ -113,7 +113,7 @@ router.post('/exposicion_directa', async (req, res) => {
 router.post('/signos_personal', async (req, res) => {
     try{
         let data = req.body;
-        let usuario = 1;
+        let usuario = 3;
 
         let result = await db.usuario.signosPersonal(usuario, data)
         return res.json(result);

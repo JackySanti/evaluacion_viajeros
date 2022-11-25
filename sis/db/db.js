@@ -185,6 +185,29 @@ const usuario = {
     }
 }
 
+const administrador = {
+    tablaUsuarios: async () => {
+        try {
+            let result = await  sql_conn.request()
+            .query('SELECT * FROM USUARIOS WHERE tipo = 0 and estado = 1');
+
+            return { estado: 1, mensaje: '', consulta: result.recordset[0]};
+        } catch(err){
+            throw err;
+        }
+    },
+    informacionUsuario: async (usuario) => {
+        try {
+            let result = await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM VT_INFO_USUARIO WHERE id_usuario = @IDUSUARIO`)
+        } catch(err){
+            throw err;
+        }
+    }
+}
+
 module.exports = {
-    usuario
+    usuario,
+    administrador
 }
