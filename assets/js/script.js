@@ -60,6 +60,7 @@ function iniciar_sesion() {
     }
 }
 
+// FUNCIONES DE LOS USUARIOS
 function identificacion_pasajero() {
     var formIdentifiacion = getFormulario('form_identificacion');
 
@@ -277,5 +278,36 @@ function signos() {
             }
         })
         .catch(error => console.error('Error:', error))
+
+}
+
+// FUNCIONES DE LOS ADMINISTRADORES
+function eliminar_usuario(idUsuario){
+    Swal.fire({
+        title: 'Eliminar dirección',
+        text: "¿Desea eliminar la dirección?",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#c32429',
+        cancelButtonColor: '#9c9c9c',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/eliminar_pasajero', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idUsuario })
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.estado == 1) {
+                        sweetAlert(2, 'success', 'Eliminado', 'Se ha eliminado la dirección.');
+                        document.getElementById('tabla_pasajero').innerHTML = response.html
+                    }
+                })
+                .catch(error => console.error('Error:', error))
+        }
+    })
 
 }

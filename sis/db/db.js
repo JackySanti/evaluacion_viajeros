@@ -191,7 +191,7 @@ const administrador = {
             let result = await  sql_conn.request()
             .query('SELECT * FROM USUARIOS WHERE tipo = 0 and estado = 1');
 
-            return { estado: 1, mensaje: '', consulta: result.recordset[0]};
+            return { estado: 1, mensaje: '', consulta: result.recordset};
         } catch(err){
             throw err;
         }
@@ -201,6 +201,8 @@ const administrador = {
             let result = await sql_conn.request()
             .input('IDUSUARIO', sql.Int, usuario)
             .query(`SELECT * FROM VT_INFO_USUARIO WHERE id_usuario = @IDUSUARIO`)
+
+            return { estado: 1, mensaje: '', consulta: result.recordsets};
         } catch(err){
             throw err;
         }

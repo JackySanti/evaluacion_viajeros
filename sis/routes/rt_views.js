@@ -79,11 +79,19 @@ router.get('/comprobante-de-vacunacion', (req, res) => {
 })
 
 // VISTA PARA ADMINISTRADORES
-router.get('/identificacion', (req, res) => {
-    res.render('views/identificacion_pasajero', {
-        layout: '',
-        inicio: true
-    });
+router.get('/pasajeros', async (req, res) => {
+    try {
+        let pasajeros = await db.administrador.tablaUsuarios();
+
+        res.render('views/tabla_usuarios', {
+            layout: '',
+            inicio: true,
+            data : pasajeros.consulta
+        });
+
+    } catch (err){
+
+    }
 })
 
 module.exports = router
