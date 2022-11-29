@@ -26,6 +26,7 @@ router.post('/iniciar_sesion', async (req, res) => {
     }
 })
 
+// RUTAS PARA EL USUARIO
 router.post('/identificacion_pasajero', async (req, res) => {
     try{
         let data = req.body;
@@ -124,4 +125,104 @@ router.post('/signos_personal', async (req, res) => {
     }
 })
 
+// RUTAS PARA EL ADMINISTRADOR
+router.post('/nuevo_administrador', async (req, res) => {
+    try{
+        let data = req.body;
+
+        let result = await db.administrador.registroAdministrador(data)
+
+        if(result.estado == 1){
+            let pasajeros = await db.administrador.tablaAdministradores();
+
+            res.render('partials/tabla_administradores', {
+                layout: '',
+                data : pasajeros.consulta
+            }, (err, html) => {
+                if (err) {
+                    console.log(err)
+                    return res.json({ estado: 0 })
+                }
+                return res.json({
+                    estado: 1,
+                    data : pasajeros.consulta,
+                    html
+                })
+            })
+
+        } else {
+            return res.json(result);
+        }
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.put('/eliminar_administrador', async (req, res) => {
+    try {
+        let data = req.body;
+        let result = await db.administrador.eliminarAdministrador(data);
+
+        if(result.estado == 1){
+            let pasajeros = await db.administrador.tablaAdministradores();
+
+            res.render('partials/tabla_administradores', {
+                layout: '',
+                data : pasajeros.consulta
+            }, (err, html) => {
+                if (err) {
+                    console.log(err)
+                    return res.json({ estado: 0 })
+                }
+                return res.json({
+                    estado: 1,
+                    data : pasajeros.consulta,
+                    html
+                })
+            })
+
+        } else {
+            return res.json(result);
+        }
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.put('/eliminar_pasajero', async (req, res) => {
+    try {
+        let data = req.body;
+        let result = await db.administrador.eliminarPasajero(data);
+
+        if(result.estado == 1){
+            let pasajeros = await db.administrador.tablaUsuarios();
+
+            res.render('partials/tabla_pasajeros', {
+                layout: '',
+                data : pasajeros.consulta
+            }, (err, html) => {
+                if (err) {
+                    console.log(err)
+                    return res.json({ estado: 0 })
+                }
+                return res.json({
+                    estado: 1,
+                    data : pasajeros.consulta,
+                    html
+                })
+            })
+
+        } else {
+            return res.json(result);
+        }
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
 module.exports = router

@@ -90,7 +90,22 @@ router.get('/pasajeros', async (req, res) => {
         });
 
     } catch (err){
+        throw err;
+    }
+})
 
+router.get('/administradores', async (req, res) => {
+    try {
+        let pasajeros = await db.administrador.tablaAdministradores();
+
+        res.render('views/administradores', {
+            layout: '',
+            inicio: true,
+            data : pasajeros.consulta
+        });
+
+    } catch (err){
+        throw err;
     }
 })
 

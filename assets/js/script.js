@@ -25,7 +25,11 @@ $(function () {
     $('#flexRadioDefault4').click(function(){
         diagnostico = 0;
     });
-})
+});
+
+$('#btnexampleModal').click(function(){
+    limpiarFormulario('form_administrador')
+});
 
 function iniciar_sesion() {
     var formSesion = getFormulario('form_login');
@@ -284,12 +288,10 @@ function signos() {
 // FUNCIONES DE LOS ADMINISTRADORES
 function eliminar_usuario(idUsuario){
     Swal.fire({
-        title: 'Eliminar dirección',
-        text: "¿Desea eliminar la dirección?",
+        title: 'Eliminar pasajero',
+        text: `¿Desea eliminar al pasajero?`,
         icon: 'info',
         showCancelButton: true,
-        confirmButtonColor: '#c32429',
-        cancelButtonColor: '#9c9c9c',
         confirmButtonText: 'Eliminar',
         cancelButtonText: "Cancelar"
     }).then((result) => {
@@ -302,12 +304,74 @@ function eliminar_usuario(idUsuario){
                 .then(response => response.json())
                 .then(response => {
                     if (response.estado == 1) {
-                        sweetAlert(2, 'success', 'Eliminado', 'Se ha eliminado la dirección.');
-                        document.getElementById('tabla_pasajero').innerHTML = response.html
+                        sweetAlert(2, 'success', 'Eliminado', 'Se ha eliminado al pasajero.');
+                        document.getElementById('tabla_pasajero').innerHTML = response.html;
                     }
                 })
                 .catch(error => console.error('Error:', error))
         }
     })
+}
 
+function registrar_administrador(){
+    var formSesion = getFormulario('form_administrador');
+
+    if (formSesion.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+
+    if (validacionEmail(formSesion.inputsValue["correo"])) {
+        fetch('/nuevo_administrador', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nombre: formSesion.value[0],
+                paterno: formSesion.value[1],
+                materno: formSesion.value[2],
+                correo : formSesion.value[3]
+            })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.estado == 1) {
+                    sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
+                    document.getElementById('tabla_administrador').innerHTML = response.html;
+                    $("#exampleModal").modal('hide');
+                }
+                else {
+                     sweetAlert(2, 'error', 'Error', 'El correo que esté intentado registrar ya se encuentra en uso.'); 
+                }
+            })
+            .catch(error => console.error('Error:', error))
+    }
+    else { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Introduzca un correo electrónico válido'); 
+    }
+}
+
+function eliminar_administrador(idAdmin) {
+    Swal.fire({
+        title: 'Eliminar administrador',
+        text: `¿Desea eliminar al administrador?`,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/eliminar_administrador', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idAdmin })
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.estado == 1) {
+                        sweetAlert(2, 'success', 'Eliminado', 'Se ha eliminado al administrador.');
+                        document.getElementById('tabla_administrador').innerHTML = response.html;
+                    }
+                })
+                .catch(error => console.error('Error:', error))
+        }
+    })
 }

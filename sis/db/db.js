@@ -206,7 +206,62 @@ const administrador = {
         } catch(err){
             throw err;
         }
-    }
+    },
+    eliminarPasajero: async (usuario) => {
+        try {
+            await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario.idUsuario)
+            .query(`DELETE FROM USUARIOS WHERE id_usuario = @IDUSUARIO`);
+
+            return { estado: 1, mensaje: ''};
+        } catch(err){
+            throw err;
+        }
+    },
+    tablaAdministradores: async (usuario) => {
+        try {
+            let result = await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM USUARIOS WHERE tipo = 1 ORDER BY id_usuario ASC`)
+
+            return { estado: 1, mensaje: '', consulta: result.recordset};
+        } catch(err){
+            throw err;
+        }
+    },
+    registroAdministrador: async ({nombre, paterno, materno, correo}) => {
+        try {
+            let result = await  sql_conn.request()
+            .input('CORREO_CONSULTA', sql.VarChar, correo)
+            .query(`SELECT * FROM USUARIOS WHERE correo = @CORREO_CONSULTA`);
+
+            if (result.rowsAffected[0] == 0) {
+                await sql_conn.request()
+                .input('NOMBRE_INSERCION', sql.VarChar, nombre)
+                .input('PATERNO_INSERCION', sql.VarChar, paterno)
+                .input('MATERNO_INSERCION', sql.VarChar, materno)
+                .input('CORREO_INSERCION', sql.VarChar, correo)
+                .query(`INSERT INTO USUARIOS(correo, contrasena, nombre, paterno, materno, tipo, estado) 
+                VALUES(@CORREO_INSERCION, '', @NOMBRE_INSERCION, @PATERNO_INSERCION, @MATERNO_INSERCION, 1, 0)`);
+                return { estado: 1, mensaje: ''};
+            } else { 
+                return { estado: 0, mensaje: '' }; 
+            }
+        } catch(err){
+            throw err;
+        }
+    },
+    eliminarAdministrador: async (usuario) => {
+        try {
+            await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario.idAdmin)
+            .query(`DELETE FROM USUARIOS WHERE id_usuario = @IDUSUARIO`);
+
+            return { estado: 1, mensaje: ''};
+        } catch(err){
+            throw err;
+        }
+    },
 }
 
 module.exports = {
