@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000
 const configuracionSesion = require('./sis/config/server_config')
 
 app.use(session(configuracionSesion));
+
 app.use(fileUpload());
 
 app.engine('hbs', hbs.express4({

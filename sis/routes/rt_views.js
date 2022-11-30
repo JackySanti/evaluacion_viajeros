@@ -8,70 +8,70 @@ router.get('/', (req, res) => {
     res.render('layouts/index')
 })
 
-router.get('/noticias', (req, res) => {
+router.get('/cerrar_sesion', [mdwViewsSession], (req, res) => {
+    req.session.destroy((error) => {
+        res.redirect('/')
+    })
+})
+
+router.get('/noticias', [mdwViewsSession], (req, res) => {
     res.render('views/noticias', {
         layout: '',
         inicio: false,
     });
 })
 
-router.get('/cerrar_sesion', (req, res) => {
-    req.session.destroy((error) => {
-        res.redirect('/')
-    })
-})
-
 // VISTA PARA USUARIOS
-router.get('/identificacion', (req, res) => {
+router.get('/identificacion', [mdwViewsSession], (req, res) => {
     res.render('views/identificacion_pasajero', {
         layout: '',
         inicio: true
     });
 })
 
-router.get('/contacto-personal', (req, res) => {
+router.get('/contacto-personal', [mdwViewsSession], (req, res) => {
     res.render('views/contacto_personal', {
         layout: '',
         inicio: true
     });
 })
 
-router.get('/identificacion-del-viaje', (req, res) => {
+router.get('/identificacion-del-viaje', [mdwViewsSession], (req, res) => {
     res.render('views/informacion_viaje', {
         layout: '',
         inicio: true
     });
 })
 
-router.get('/condicion-medica', (req, res) => {
+router.get('/condicion-medica', [mdwViewsSession], (req, res) => {
     res.render('views/condicion_medica', {
         layout: '',
         inicio: true
     });
 })
 
-router.get('/informacion-medica', (req, res) => {
+router.get('/informacion-medica', [mdwViewsSession], (req, res) => {
     res.render('views/informacion_medica', {
         layout: '',
         inicio: true
     });
 })
 
-router.get('/exposicion-directa', (req, res) => {
+router.get('/exposicion-directa', [mdwViewsSession], (req, res) => {
     res.render('views/exposcion_paciente', {
         layout: '',
         inicio: true
     });
 })
 
-router.get('/signos', (req, res) => {
+router.get('/signos', [mdwViewsSession], (req, res) => {
     res.render('views/signos', {
         layout: '',
         inicio: true
     });
 })
 
-router.get('/comprobante-de-vacunacion', (req, res) => {
+router.get('/comprobante-de-vacunacion', [mdwViewsSession], (req, res) => {
     res.render('views/comprobante_vacunacion', {
         layout: '',
         inicio: true

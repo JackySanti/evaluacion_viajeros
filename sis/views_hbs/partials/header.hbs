@@ -1,125 +1,17 @@
-css 
-header
-noticias
-partials
-
-
-<header>
-    {{!-- <div class="header-top sticky-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-2 col-md-3 col-6 md-custom-5 d-none d-lg-block">
-                    <div>
-                        <a href="/noticias"><img class="logosecundario" src="/img/itcm.png"></a>
-                    </div>
-                </div>
-                <div class="col-lg-10 col-md-9 md-custom-7">
-                    <div class="row">
-                        <div class="col-lg-9 d-none d-lg-block">
-                            <div class="main-menu-area text-center">
-                                <nav>
-                                    <ul>
-                                        {{#if inicio}}
-                                        <li><a href='/noticias'>Noticias</a></li>
-                                        {{/if}}
-                                        <li><a href=''>Registro</a></li>
-                                        <li><a href='/comprobante-de-vacunacion'>Comprobante de vacunación</a></li>
-                                        <li><a href=''>Resultados</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-12 d-none d-lg-block">
-                            <div class="full-setting-area setting-style-3">
-                                <div>
-                                    <a href=""><img class="logosecundario" src="/img/itcm.png"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    <div class="header-top sticky-header">
-        <div class="container-fluid">
-            <div class="row">
-
-                <div class="col-lg-10 col-md-9 md-custom-7">
-                    <div class="row">
-                        <div class="col-lg-9 d-none d-lg-block">
-                            <div class="main-menu-area text-center">
-
-                                <nav class="navbar navbar-expand-lg  fixed-top" style="background-color: #4652ff;">
-                                    <div class="container-fluid">
-                                        <a class="navbar-brand" href="#">
-                                            <img src="img/logo.png">
-                                        </a>
-                                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#navbarSupportedContent"
-                                            aria-controls="navbarSupportedContent" aria-expanded="false"
-                                            aria-label="Toggle navigation">
-                                            <span class="navbar-toggler-icon"></span>
-                                        </button>
-                                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                                <li class="nav-item buttonnav">
-                                                    <a class="nav-link active" aria-current="page" href='/noticias'>Inicio</a>
-                                                </li>
-                                                <li class="nav-item dropdown buttonnav">
-                                                    <a class="nav-link dropdown-toggle active" href="#" role="button"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Comenzar registro
-                                                    </a>
-                                                    <ul class="dropdown-menu active menudesplegable submenu2">
-                                                        <li><a class="dropdown-item submenu" 
-                                                        href='/identificacion'>Identificación del
-                                                                Pasajero</a></li>
-                                                        <li ><a class="dropdown-item submenu"
-                                                                href="/contacto-personal">Contacto personal</a></li>
-                                                        <li><a class="dropdown-item submenu" href="/identificacion-del-viaje">Información
-                                                                del viaje</a></li>
-                                                        <li><a class="dropdown-item submenu"
-                                                                href="/condicion-medica">Condición Médica</a></li>
-                                                        <li><a class="dropdown-item submenu"  href="/informacion-medica">Información
-                                                                Médica relacionada con COVID-19.</a></li>
-                                                        <li><a class="dropdown-item submenu"
-                                                                href="/exposicion-directa">Exposición directa con un
-                                                                paciente COVID-19 positivo </a></li>
-                                                        <li><a class="dropdown-item submenu" href="/signos">Signos</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="nav-item buttonnav active">
-                                                    <a class="nav-link active" href='/comprobante-de-vacunacion'>Comprobante vacunación</a>
-                                                </li>
-                                                <li class="nav-item buttonnav active">
-                                                    <a class="nav-link active">Resultados</a>
-                                                </li>
-                                                <li class="nav-item buttonnav ">
-                                                    <a class="nav-link active" href="/cerrar_sesion">Cerrar Sesión</a>
-                                                </li>
-                                            </ul>
-                                            <form class="d-flex" role="search">
-                                                <input class="form-control me-2" type="search" placeholder="Buscar"
-                                                    aria-label="Search">
-                                                <button class="btn btn-outline-success btnbuscar" type="submit">Buscar</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-12 d-none d-lg-block">
-                            <div class="full-setting-area setting-style-3">
-                                {{!-- <div>
-                                    <a href=""><img class="logosecundario" src="/img/itcm.png"></a>
-                                </div> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="noticias">
+            <img class="logosecundario" src="/img/itcm.png">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {{#if inicio}}
+                    <li><a href='/noticias'>Noticias</a></li>
+                {{/if}}
+                <li><a href=''>Registro</a></li>
+                <li><a href='/comprobante-de-vacunacion'>Comprobante de vacunación</a></li>
+                <li><a href=''>Resultados</a></li>
+            </ul>
         </div>
     </div>
-</header>
+</nav>
