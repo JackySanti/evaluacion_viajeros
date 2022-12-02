@@ -26,6 +26,39 @@ router.post('/iniciar_sesion', async (req, res) => {
     }
 })
 
+router.post('/registrar_usuario', async (req, res) => {
+    try{
+        let data = req.body;
+        let result = await db.usuario.validacionUsuario(data);
+
+        if (result.estado == 1) {
+            let insercion = await db.usuario.registrarUsuario(data);
+
+            console.log(insercion);
+
+            let correo = data.correo;
+            let contrasena = data.contrasena;
+
+            let sesion = await db.usuario.iniciarSesion({correo, contrasena});
+
+            req.session.user = {
+                idCliente: sesion.consulta.id_usuario,
+                email: sesion.consulta.correo,
+                name: sesion.consulta.nombre,
+                paterno: sesion.consulta.paterno,
+                materno: sesion.consulta.materno,
+                tipo: (sesion.consulta.tipo) ? 1  : 0
+            }
+        }
+
+        return res.json(result);
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
 // RUTAS PARA EL USUARIO
 router.post('/identificacion_pasajero', async (req, res) => {
     try{

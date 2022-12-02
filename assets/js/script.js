@@ -64,6 +64,42 @@ function iniciar_sesion() {
     }
 }
 
+function registrar_usuario() {
+    var formRegistro = getFormulario('form_registro');
+
+    if (formRegistro.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+
+    // if (validacionPassword(formRegistro.inputsValue['contrasena'])) { 
+    //     return sweetAlert(1, 'warning', 'Tu contraseña debe contener:',
+    //                 'Como mínimo 8 caracteres, letras mayúsculas, mimúsculas, al menos un número y al menos un caracter especial.'
+    //             );
+    // }
+
+    if (validacionEmail(formRegistro.inputsValue["correo"])) {
+        fetch('/registrar_usuario', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formRegistro.inputsValue)
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.estado == 1) {
+                    sweetAlert(2, 'success', '¡Gracias por registrarte! ', 'Tu sesión se esta iniciando...');
+                    setTimeout(function () { window.location.href = '/noticias' }, 5000)
+                }
+                else {
+                     sweetAlert(2, 'error', 'Acceso denegado', `${response.mensaje}`); 
+                }
+            })
+            .catch(error => console.error('Error:', error))
+    }
+    else { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Introduzca un correo electrónico válido'); 
+    }
+}
+
 // FUNCIONES DE LOS USUARIOS
 function identificacion_pasajero() {
     var formIdentifiacion = getFormulario('form_identificacion');

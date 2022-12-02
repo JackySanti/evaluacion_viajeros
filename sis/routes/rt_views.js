@@ -109,4 +109,16 @@ router.get('/administradores', [mdwViewsSession, mdwAdministrador], async (req, 
     }
 })
 
+router.get('/categorias', [mdwViewsSession, mdwAdministrador], async (req, res) => {
+    try {
+        res.render('views/categorias', {
+            layout: '',
+            inicio: true,
+        });
+
+    } catch (err){
+        throw err;
+    }
+})
+
 module.exports = router

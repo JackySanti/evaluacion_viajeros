@@ -25,6 +25,38 @@ const usuario = {
             throw err
         }
     },
+    validacionUsuario: async (data) =>{
+        try{
+            let result = await  sql_conn.request()
+            .input('CORREO_CONSULTA', sql.VarChar, data.correo)
+            .query(`SELECT * FROM USUARIOS WHERE correo = @CORREO_CONSULTA`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 0, mensaje: 'El correo que esté intentado registrar ya se encuentra en uso, intenta iniciar sesión.'};
+            } else { 
+                return { estado: 1, mensaje: ''}; 
+            }
+        } catch(err){
+            throw err
+        }
+    },
+    registrarUsuario: async (data) =>{
+        try {
+            console.log(data);
+            await sql_conn.request()
+                .input('NOMBRE_INSERCION', sql.VarChar, data.nombre)
+                .input('PATERNO_INSERCION', sql.VarChar, data.paterno)
+                .input('MATERNO_INSERCION', sql.VarChar, data.materno)
+                .input('CORREO_INSERCION', sql.VarChar, data.correo)
+                .input('CONTRASENA_INSERCION', sql.VarChar, data.contrasena)
+                .query(`INSERT INTO USUARIOS(correo, contrasena, nombre, paterno, materno, tipo, estado) 
+                VALUES(@CORREO_INSERCION, @CONTRASENA_INSERCION, @NOMBRE_INSERCION, @PATERNO_INSERCION, @MATERNO_INSERCION, 0, 1)`);
+                
+            return { estado: 1, mensaje: ''};
+        } catch(err){
+            throw err;
+        }
+    },
     datosPersonales: async (usuario, data) => {
         try{
             let f_nacimiento = data.f_nacimiento.split('/').reverse().join('-');
