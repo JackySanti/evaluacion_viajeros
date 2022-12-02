@@ -193,6 +193,50 @@ router.put('/eliminar_administrador', async (req, res) => {
     }
 })
 
+router.put('/editar_administrador', async (req, res) => {
+    try {
+        let data = req.body;
+        let result = await db.administrador.actualizarAdministrador(data);
+
+        if(result.estado == 1){
+            let pasajeros = await db.administrador.tablaAdministradores();
+
+            res.render('partials/tabla_administradores', {
+                layout: '',
+                data : pasajeros.consulta
+            }, (err, html) => {
+                if (err) {
+                    console.log(err)
+                    return res.json({ estado: 0 })
+                }
+                return res.json({
+                    estado: 1,
+                    data : pasajeros.consulta,
+                    html
+                })
+            })
+
+        } else {
+            return res.json(result);
+        }
+    } catch (error) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.post('/consultar_administrador', async (req, res) => {
+    try {
+        let data = req.body;
+        let result = await db.administrador.consultaAdministrador(data);
+
+        return res.json(result);
+    } catch (error) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
 router.put('/eliminar_pasajero', async (req, res) => {
     try {
         let data = req.body;
@@ -225,4 +269,5 @@ router.put('/eliminar_pasajero', async (req, res) => {
         res.json({ estado: 0 });
     }
 })
+
 module.exports = router

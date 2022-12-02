@@ -375,3 +375,55 @@ function eliminar_administrador(idAdmin) {
         }
     })
 }
+
+function editar_administrador() {
+    var formUpdate = getFormulario('form_update');
+
+    if (formUpdate.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+
+    fetch('/editar_administrador', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formUpdate.inputsValue)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se actualizó con éxito.');
+                document.getElementById('tabla_administrador').innerHTML = response.html;
+                $("#consultaAdmin").modal('hide');
+            }
+            else {
+                sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+
+}
+
+function consultar_administrador(idAdmin) {
+    fetch('/consultar_administrador', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idAdmin })
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                let admin = response.consulta;
+
+                $('#idUsuario').val(admin.id_usuario);
+                $('#nombre_up').val(admin.nombre);
+                $('#paterno_up').val(admin.paterno);
+                $('#materno_up').val(admin.materno);
+                $('#correo_up').val(admin.correo);
+                $('#estado').val((admin.estado == true) ? 'Activo' : 'Inactivo');
+               
+                $('#consultaAdmin').modal('show');
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+

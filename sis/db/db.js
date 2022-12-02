@@ -218,10 +218,21 @@ const administrador = {
             throw err;
         }
     },
-    tablaAdministradores: async (usuario) => {
+    consultaAdministrador: async (usuario) => {
+        try{
+            let result = await sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario.idAdmin)
+                .query(`SELECT * FROM USUARIOS WHERE id_usuario = @IDUSUARIO`)
+
+            return { estado: 1, mensaje: '', consulta: result.recordset[0]};
+
+        } catch(err){
+            throw err;
+        }
+    },
+    tablaAdministradores: async () => {
         try {
             let result = await sql_conn.request()
-            .input('IDUSUARIO', sql.Int, usuario)
             .query(`SELECT * FROM USUARIOS WHERE tipo = 1 ORDER BY id_usuario ASC`)
 
             return { estado: 1, mensaje: '', consulta: result.recordset};
@@ -258,6 +269,24 @@ const administrador = {
             .query(`DELETE FROM USUARIOS WHERE id_usuario = @IDUSUARIO`);
 
             return { estado: 1, mensaje: ''};
+        } catch(err){
+            throw err;
+        }
+    },
+    actualizarAdministrador: async (data) => {
+        try {
+            let result = await  sql_conn.request()
+                .input('IDUSUARIO', sql.Int, data.idUsuario)
+                .input('NOMBRE_UP', sql.VarChar, data.nombre_up)
+                .input('PATERNO_UP', sql.VarChar, data.paterno_up)
+                .input('MATERNO_UP', sql.VarChar, data.materno_up)
+                .input('CORREO_UP', sql.VarChar, data.correo_up)
+                .query(`UPDATE USUARIOS SET nombre = @NOMBRE_UP, paterno = @PATERNO_UP, materno = @MATERNO_UP, correo = @CORREO_UP
+                WHERE id_usuario = @IDUSUARIO`);
+
+                if (result.rowsAffected[0] == 1) {
+                    return { estado: 1 }
+                } else { return { estado: 0 } }
         } catch(err){
             throw err;
         }

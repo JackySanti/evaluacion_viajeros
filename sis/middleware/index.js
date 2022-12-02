@@ -9,6 +9,29 @@ const mdwViewsSession = (req, res, next) => {
         return res.redirect('/')
 }
 
+const mdwPasajero= (req, res, next) => {
+    let usuario = req.session.user;
+    console.log(req.session.user);
+
+    if(usuario.tipo == 0){
+        return next();
+    }
+    else
+        return res.redirect('/noticias')
+}
+
+
+const mdwAdministrador = (req, res, next) => {
+    let usuario = req.session.user;
+    console.log(req.session.user);
+
+    if(usuario.tipo == 1){
+        return next();
+    }
+    else
+        return res.redirect('/noticias')
+}
+
 const mdwReturnNoticias= (req, res, next) => {
     if(req.session.user){
         res.redirect('/noticias')
@@ -20,5 +43,7 @@ const mdwReturnNoticias= (req, res, next) => {
 
 module.exports={
     mdwViewsSession,
-    mdwReturnNoticias
+    mdwReturnNoticias,
+    mdwAdministrador,
+    mdwPasajero
 }
