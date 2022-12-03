@@ -15,10 +15,20 @@ router.get('/cerrar_sesion', [mdwViewsSession], (req, res) => {
 })
 
 router.get('/noticias', [mdwViewsSession], (req, res) => {
-    res.render('views/noticias', {
-        layout: '',
-        inicio: false,
-    });
+    let usuario = req.session.user;
+    
+    if(usuario.tipo == 0){
+        res.render('views/noticias', {
+            layout: '',
+            inicio: true,
+        });
+    } else {
+        res.render('views/noticias', {
+            layout: '',
+            inicio: false,
+        });
+    }
+   
 })
 
 // VISTA PARA USUARIOS
@@ -85,7 +95,7 @@ router.get('/pasajeros', [mdwViewsSession, mdwAdministrador], async (req, res) =
 
         res.render('views/tabla_usuarios', {
             layout: '',
-            inicio: true,
+            inicio: false,
             data : pasajeros.consulta
         });
 
@@ -100,7 +110,7 @@ router.get('/administradores', [mdwViewsSession, mdwAdministrador], async (req, 
 
         res.render('views/administradores', {
             layout: '',
-            inicio: true,
+            inicio: false,
             data : pasajeros.consulta
         });
 
@@ -115,7 +125,7 @@ router.get('/categorias', [mdwViewsSession, mdwAdministrador], async (req, res) 
 
         res.render('views/categorias', {
             layout: '',
-            inicio: true,
+            inicio: false,
             data : riesgo.consulta
         });
 

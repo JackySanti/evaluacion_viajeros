@@ -1,17 +1,25 @@
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-        {{!-- <a class="navbar-brand" href="noticias">
-            <img class="logosecundario" src="/img/itcm.png">
-        </a> --}}
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                {{#if inicio}}
-                    <li><a href='/noticias'>Noticias</a></li>
-                {{/if}}
-                <li><a href=''>Registro</a></li>
-                <li><a href='/comprobante-de-vacunacion'>Comprobante de vacunación</a></li>
-                <li><a href=''>Resultados</a></li>
-            </ul>
+{{!-- 
+        AQUI DEBEMOS CAMBIAR LOS HEADERS DENTRO DEL IF IRIA EL HEADER EL USUARIO
+        DENTRO DEL ELSE IRIA EL DEL ADMINISTRADOR
+ --}}
+
+{{#if inicio}}
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            {{!-- <a class="navbar-brand" href="noticias">
+                <img class="logosecundario" src="/img/itcm.png">
+            </a> --}}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {{#if inicio}}
+                        <li><a href='/noticias'>Noticias</a></li>
+                    {{/if}}
+                    <li><a href=''>Registro</a></li>
+                    <li><a href='/comprobante-de-vacunacion'>Comprobante de vacunación</a></li>
+                    <li><a href=''>Resultados</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+{{else}}
+{{/if}}

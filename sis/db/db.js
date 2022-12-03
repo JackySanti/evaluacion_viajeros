@@ -285,7 +285,7 @@ const administrador = {
                 .input('MATERNO_INSERCION', sql.VarChar, materno)
                 .input('CORREO_INSERCION', sql.VarChar, correo)
                 .query(`INSERT INTO USUARIOS(correo, contrasena, nombre, paterno, materno, tipo, estado) 
-                VALUES(@CORREO_INSERCION, '', @NOMBRE_INSERCION, @PATERNO_INSERCION, @MATERNO_INSERCION, 1, 0)`);
+                VALUES(@CORREO_INSERCION, '123456', @NOMBRE_INSERCION, @PATERNO_INSERCION, @MATERNO_INSERCION, 1, 0)`);
                 return { estado: 1, mensaje: ''};
             } else { 
                 return { estado: 0, mensaje: '' }; 
