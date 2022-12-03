@@ -22,26 +22,99 @@
             <div class="col-8">
                  <h4>Categorías para factores de riesgo de COVID-19 en viajeros</h4>
             </div>
+        </div>
+
         <br>
-
-        <table class="table">
-            <thead class="table-dark">
-                <tr>
-                    <th></th>
-                    <th>Riesgo Alto</th>
-                    <th>Riesgo Medio</th>
-                    <th>Riesgo Bajo</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
-
-
+        <div id="tabla_riesgo">
+            {{>tabla_riesgos}}
+        </div>
+        
         {{>footer}}
+
     </div>
+
+    <!-- Modal para editar Riesgo -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Regístrate para iniciar</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form_riesgo">
+                    <div class="row" id="inputhide">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">ID</label>
+                                <input type="text" class="form-control" name="numero" id="numero">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <input type="text" class="form-control" name="descripcion" id="descripcion">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Puntaje Alto</label>
+                                <input type="text" class="form-control" name="p_alto" id="p_alto">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Puntaje Medio</label>
+                                <input type="text" class="form-control" name="p_medio" id="p_medio">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Puntaje Bajo</label>
+                                <input type="text" class="form-control" name="p_bajo" id="p_bajo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Riesgo Alto</label>
+                                <input type="text" class="form-control" name="e_alto" id="e_alto">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Riesgo Medio</label>
+                                <input type="text" class="form-control" name="e_medio" id="e_medio">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Riesgo Bajo</label>
+                                <input type="text" class="form-control" name="e_bajo" id="e_bajo">
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="actualizar_riesgo()">Registrar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
 
     {{>script}}
 </body>

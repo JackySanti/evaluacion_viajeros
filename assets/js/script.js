@@ -449,17 +449,75 @@ function consultar_administrador(idAdmin) {
         .then(response => {
             if (response.estado == 1) {
                 let admin = response.consulta;
-
+               
                 $('#idUsuario').val(admin.id_usuario);
                 $('#nombre_up').val(admin.nombre);
                 $('#paterno_up').val(admin.paterno);
                 $('#materno_up').val(admin.materno);
                 $('#correo_up').val(admin.correo);
                 $('#estado').val((admin.estado == true) ? 'Activo' : 'Inactivo');
+
+                
+                $('#idUsuario').hide();
                
                 $('#consultaAdmin').modal('show');
             }
         })
         .catch(error => console.error('Error:', error))
+}
+
+function consultar_puntaje(numero, id_factor) {
+    fetch('/consultar_riesgo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ numero, id_factor })
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                let riesgo = response.consulta;
+
+                $('#numero').val(riesgo.numero);
+                $('#descripcion').val(riesgo.descripcion);
+                $('#p_alto').val(riesgo.p_alto);
+                $('#p_medio').val(riesgo.p_medio);
+                $('#p_bajo').val(riesgo.p_bajo);
+                $('#e_alto').val(riesgo.e_alto);
+                $('#e_medio').val(riesgo.e_medio);
+                $('#e_bajo').val(riesgo.e_bajo);
+
+                $('#inputhide').hide();
+               
+                $('#exampleModal').modal('show');
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
+function actualizar_riesgo() {
+    var formUpdate = getFormulario('form_riesgo');
+
+    if (formUpdate.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+
+    fetch('/actualizar_riesgos', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formUpdate.inputsValue)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se actualizó con éxito.');
+                document.getElementById('tabla_riesgo').innerHTML = response.html;
+                $("#exampleModal").modal('hide');
+            }
+            else {
+                sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+
 }
 

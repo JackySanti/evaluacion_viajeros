@@ -323,6 +323,50 @@ const administrador = {
             throw err;
         }
     },
+    tablaFactoresRiesgo: async () => {
+        try {
+            let result = await sql_conn.request()
+            .query(`SELECT * FROM FACTORESRIESGO`)
+
+            return { estado: 1, mensaje: '', consulta: result.recordset};
+        } catch(err){
+            throw err;
+        }
+    },
+    consultaRiesgo: async (riesgo) => {
+        try{
+            let result = await sql_conn.request()
+                .input('NUMERO', sql.Int, riesgo.numero)
+                .input('IDFACTOR', sql.NVarChar, riesgo.id_factor)
+                .query(`SELECT * FROM FACTORESRIESGO WHERE numero = @NUMERO AND id_factor = @IDFACTOR`)
+                
+            return { estado: 1, mensaje: '', consulta: result.recordset[0]};
+
+        } catch(err){
+            throw err;
+        }
+    },
+    actualizarRiesgo: async (riesgo) => {
+        try{
+            console.log(riesgo);
+           await sql_conn.request()
+                .input('NUMERO', sql.Int, riesgo.numero)
+                .input('DESCRIPCION', sql.NVarChar, riesgo.descripcion)
+                .input('PALTO', sql.NVarChar, riesgo.p_alto)
+                .input('PMEDIO', sql.NVarChar, riesgo.p_medio)
+                .input('PBAJO', sql.NVarChar, riesgo.p_bajo)
+                .input('EALTO', sql.NVarChar, riesgo.e_alto)
+                .input('EMEDIO', sql.NVarChar, riesgo.e_medio)
+                .input('EBAJO', sql.NVarChar, riesgo.e_bajo)
+                .query(`UPDATE FACTORESRIESGO SET descripcion = @DESCRIPCION, p_alto = @PALTO, p_medio = @PMEDIO,
+                p_bajo = @PBAJO, e_alto = @EALTO, e_medio = @EMEDIO, e_bajo = @EBAJO WHERE numero = @NUMERO`)
+                
+            return { estado: 1, mensaje: ''};
+
+        } catch(err){
+            throw err;
+        }
+    },
 }
 
 module.exports = {

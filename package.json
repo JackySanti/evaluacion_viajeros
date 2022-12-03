@@ -11,6 +11,7 @@
     "express-hbs": "^2.4.0",
     "express-session": "^1.17.3",
     "express-useragent": "^1.0.15",
+    "html-pdf": "^3.0.1",
     "html-to-text": "^8.2.1",
     "iconv-lite": "^0.6.3",
     "jsonschema": "^1.4.1",
@@ -39,6 +40,5 @@
     "url": "https://github.com/JackySanti/evaluacion_viajeros/issues"
   },
   "homepage": "https://github.com/JackySanti/evaluacion_viajeros#readme",
-  "devDependencies": {},
   "description": ""
 }

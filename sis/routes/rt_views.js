@@ -111,9 +111,12 @@ router.get('/administradores', [mdwViewsSession, mdwAdministrador], async (req, 
 
 router.get('/categorias', [mdwViewsSession, mdwAdministrador], async (req, res) => {
     try {
+        let riesgo = await db.administrador.tablaFactoresRiesgo();
+
         res.render('views/categorias', {
             layout: '',
             inicio: true,
+            data : riesgo.consulta
         });
 
     } catch (err){

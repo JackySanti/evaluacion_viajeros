@@ -303,4 +303,48 @@ router.put('/eliminar_pasajero', async (req, res) => {
     }
 })
 
+router.post('/consultar_riesgo', async (req, res) => {
+    try {
+        let data = req.body;
+        let result = await db.administrador.consultaRiesgo(data);
+
+        return res.json(result);
+    } catch (error) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.put('/actualizar_riesgos', async (req, res) => {
+    try {
+        let data = req.body;
+        let result = await db.administrador.actualizarRiesgo(data);
+
+        if(result.estado == 1){
+            let riesgos = await db.administrador.tablaFactoresRiesgo(data);
+
+            res.render('partials/tabla_riesgos', {
+                layout: '',
+                data : riesgos.consulta
+            }, (err, html) => {
+                if (err) {
+                    console.log(err)
+                    return res.json({ estado: 0 })
+                }
+                return res.json({
+                    estado: 1,
+                    data : riesgos.consulta,
+                    html
+                })
+            })
+
+        } else {
+            return res.json(result);
+        }
+    } catch (error) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
 module.exports = router
