@@ -214,7 +214,52 @@ const usuario = {
         } catch(err){
             throw err
         }
-    }
+    },
+    actualizacionResultados: async()=>{
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('TEMPERATURA', sql.NVarChar, data.temperatura)
+            .input('RESPIRATORIA', sql.NVarChar, data.respiratoria)
+            .input('CARDIACA', sql.NVarChar, data.cardiaca)
+            .input('OXIGENO', sql.NVarChar, data.oxigeno)
+            .input('ARTERIAL', sql.NVarChar, data.arterial)
+            .query(`INSERT INTO SIGNOS(id_usuario, temperatura, f_respiratoria, f_cardiaca, s_oxigeno, t_arterial, estado)
+            VALUES(@IDUSUARIO, @TEMPERATURA, @RESPIRATORIA, @CARDIACA, @OXIGENO, @ARTERIAL, 1)`);
+           
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    consultaSignosUsuario: async(usuario) => {
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT COUNT(*) AS signos FROM SIGNOS WHERE id_usuario = @IDUSUARIO`);
+            
+            return { estado: 1, mensaje: '', consulta: result.recordset[0]};
+        } catch(err){
+            throw err
+        }
+    },
+    resultadoInsercion:async (usuario, puntaje, data, historial, cuarentena)=>{
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('PUNTAJE', sql.Int, puntaje)
+            .input('DATA', sql.NVarChar, data.pcovid)
+            .input('HISTORIAL', sql.NVarChar, historial)
+            .input('CUARENTENA', sql.NVarChar, cuarentena)
+            .query(`INSERT INTO RESULTADOS(id_usuario, puntaje, pcovid, historial, cuarentena) VALUES(@IDUSUARIO, @PUNTAJE, @DATA, @HISTORIAL, @CUARENTENA )`);
+
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
 }
 
 const administrador = {
@@ -367,7 +412,6 @@ const administrador = {
     },
     actualizarRiesgo: async (riesgo) => {
         try{
-            console.log(riesgo);
            await sql_conn.request()
                 .input('NUMERO', sql.Int, riesgo.numero)
                 .input('DESCRIPCION', sql.NVarChar, riesgo.descripcion)
@@ -381,6 +425,23 @@ const administrador = {
                 p_bajo = @PBAJO, e_alto = @EALTO, e_medio = @EMEDIO, e_bajo = @EBAJO WHERE numero = @NUMERO`)
                 
             return { estado: 1, mensaje: ''};
+
+        } catch(err){
+            throw err;
+        }
+    },
+    consultaResultados :async (usuario) => {
+        try{
+           let result = await sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario.idCliente)
+                .query(`SELECT * FROM RESULTADOS WHERE id_Usuario = @IDUSUARIO`)
+                
+            if(result.rowsAffected[0] == 1){
+                return { estado: 1, mensaje: '', consulta: result.recordset}
+            } else {
+                return { estado: 0, mensaje: '' }
+            }
+            
 
         } catch(err){
             throw err;

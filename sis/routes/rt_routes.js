@@ -159,6 +159,31 @@ router.post('/signos_personal', async (req, res) => {
     }
 })
 
+router.post('/resultados_pasaje', async (req, res) => {
+    try{
+        let data = req.body;
+        let usuario = req.session.user.idCliente;
+
+        let result = await db.usuario.consultaSignosUsuario(usuario);
+        let signos = result.consulta['signos'];
+
+        if(signos != 0){
+            let registro = await db.usuario.resultadoInsercion(usuario, 0, data, 'Si', 'Si');
+            return res.json(registro);
+
+        } else {
+            let registro = await db.usuario.resultadoInsercion(usuario, 0, data, 'No', 'No');
+            return res.json(registro);
+        }
+
+        
+
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
 // RUTAS PARA EL ADMINISTRADOR
 router.post('/nuevo_administrador', async (req, res) => {
     try{

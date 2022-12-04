@@ -321,6 +321,32 @@ function signos() {
 
 }
 
+function resultado_prueba() {
+    var formResultado = getFormulario('form_resultados');
+
+    if (formResultado.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+    console.log(formResultado);
+    fetch('/resultados_pasaje', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formResultado.inputsValue)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                $("#btnresult").removeAttr('disabled');
+                sweetAlert(2, 'success', 'Proceso Completado', 'Ya puedes generar tu PDF.');
+
+            }
+            else {
+                sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
 // FUNCIONES DE LOS ADMINISTRADORES
 function consultar_usuario(idUsuario){
     fetch('/consultar_usuario', {

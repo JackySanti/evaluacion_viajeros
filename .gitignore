@@ -1,9 +1,9 @@
 node_modules/
 node_modules
 
-evaluacion_viajeros\assets\img
-img
+# evaluacion_viajeros\assets\img
+# img
 
 evaluacion_viajeros\sis\db\config.js
 
-evaluacion_viajeros\sis\views_hbs\partials\header.js
+# evaluacion_viajeros\sis\views_hbs\partials\header.js

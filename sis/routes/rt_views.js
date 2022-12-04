@@ -103,11 +103,30 @@ router.get('/comprobante-de-vacunacion', [mdwViewsSession, mdwPasajero], (req, r
     });
 })
 
-router.get('/resultados', [mdwViewsSession, mdwPasajero], (req, res) => {
-    res.render('views/resultados', {
-        layout: '',
-        inicio: true
-    });
+router.get('/resultados', [mdwViewsSession, mdwPasajero], async (req, res) => {
+    try {
+        let usuario = req.session.user;
+        let pasajeros = await db.administrador.consultaResultados(usuario);
+
+        if(pasajeros.estado == 1){
+            res.render('views/resultados', {
+                layout: '',
+                inicio: true,
+                pdf: true 
+            });
+        } else {
+            res.render('views/resultados', {
+                layout: '',
+                inicio: true,
+                pdf: false 
+            });
+        }
+        
+
+    } catch (err){
+        throw err;
+    }
+   
 })
 
 // VISTA PARA ADMINISTRADORES
