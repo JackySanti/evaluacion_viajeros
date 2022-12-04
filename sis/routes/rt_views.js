@@ -26,6 +26,9 @@ router.get('/noticias', [mdwViewsSession], (req, res) => {
         res.render('views/noticias', {
             layout: '',
             inicio: false,
+            activo: (usuario.estado == 0) ? false : true,
+            usuario: usuario.idCliente,
+            email: usuario.email
         });
     }
    
@@ -82,6 +85,13 @@ router.get('/signos', [mdwViewsSession, mdwPasajero], (req, res) => {
 })
 
 router.get('/comprobante-de-vacunacion', [mdwViewsSession, mdwPasajero], (req, res) => {
+    res.render('views/comprobante_vacunacion', {
+        layout: '',
+        inicio: true
+    });
+})
+
+router.get('/resultados', [mdwViewsSession, mdwPasajero], (req, res) => {
     res.render('views/comprobante_vacunacion', {
         layout: '',
         inicio: true

@@ -14,7 +14,8 @@ router.post('/iniciar_sesion', async (req, res) => {
                 name: result.consulta.nombre,
                 paterno: result.consulta.paterno,
                 materno: result.consulta.materno,
-                tipo: (result.consulta.tipo) ? 1  : 0
+                tipo: (result.consulta.tipo) ? 1  : 0,
+                estado: result.estado
             }
         }
 
@@ -254,6 +255,18 @@ router.put('/editar_administrador', async (req, res) => {
         }
     } catch (error) {
         console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.put('/administrador_activo', async(req, res) => {
+    try{
+        let data = req.body;
+        let result = await db.administrador.actualizarEstadoContra(data);
+
+        return res.json(result);
+    } catch (error) {
+        console.log(error)
         res.json({ estado: 0 });
     }
 })

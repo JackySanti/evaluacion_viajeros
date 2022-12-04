@@ -318,7 +318,26 @@ const administrador = {
 
                 if (result.rowsAffected[0] == 1) {
                     return { estado: 1 }
-                } else { return { estado: 0 } }
+                } else { 
+                    return { estado: 0 } 
+                }
+        } catch(err){
+            throw err;
+        }
+    },
+    actualizarEstadoContra: async(data) => {
+        try{
+            let result = await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, data.idUsuario)
+            .input('CONTRASENA', sql.VarChar, data.n_contrasena)
+            .query(`UPDATE USUARIOS SET contrasena = @CONTRASENA, estado = 1 WHERE id_usuario =  @IDUSUARIO`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1 }
+            } else { 
+                return { estado: 0 } 
+            }
+
         } catch(err){
             throw err;
         }

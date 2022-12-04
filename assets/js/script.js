@@ -416,7 +416,7 @@ function editar_administrador() {
     var formUpdate = getFormulario('form_update');
 
     if (formUpdate.estado == 0) { 
-        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios.'); 
     }
 
     fetch('/editar_administrador', {
@@ -498,7 +498,7 @@ function actualizar_riesgo() {
     var formUpdate = getFormulario('form_riesgo');
 
     if (formUpdate.estado == 0) { 
-        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios.'); 
     }
 
     fetch('/actualizar_riesgos', {
@@ -521,3 +521,34 @@ function actualizar_riesgo() {
 
 }
 
+function actualizar_contrasena_admin() {
+    var formPassword = getFormulario('form_contrasenaAdmin');
+
+    if (formPassword.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios.'); 
+    }
+
+    var inputs = formPassword.inputsValue;
+
+    if(inputs.n_contrasena === inputs.c_contrasena){
+        fetch('/administrador_activo', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formPassword.inputsValue)
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.estado == 1) {
+                    sweetAlert(2, 'success', 'Cuenta administrador activa', 'La información se actualizó con éxito.');
+                    $("#contrasenaAdmin").modal('hide');
+                }
+                else {
+                    sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+                }
+            })
+            .catch(error => console.error('Error:', error))
+
+    } else {
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Las contraseñas no coinciden.'); 
+    }
+}
