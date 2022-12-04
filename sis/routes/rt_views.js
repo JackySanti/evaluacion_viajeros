@@ -104,7 +104,7 @@ router.get('/comprobante-de-vacunacion', [mdwViewsSession, mdwPasajero], (req, r
 })
 
 router.get('/resultados', [mdwViewsSession, mdwPasajero], (req, res) => {
-    res.render('views/comprobante_vacunacion', {
+    res.render('views/resultados', {
         layout: '',
         inicio: true
     });

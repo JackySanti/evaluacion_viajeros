@@ -17,9 +17,19 @@
     <div class="container-fluid">
         {{>header}}
 
-        <h4>Información Médica relacionada con COVID-19 (Sintomas)</h4>
+        <h4>Resultados del seguimiento</h4>
 
-      
+        <form id="form_condicion">
+            <div class="coupon-input form-row-last">
+                <label>Prueba estándar de reacción en cadena de la polimerasa (PCR) para covid-19 (Al menos 48 horas antes de viajar):</label>
+				<select name="pcovid" id="pcovid" >
+                    <option value="">--Seleccione una opción--</option>
+                    <option value="Positivo">Positivo</option>
+                    <option value="Negativo">Negativo</option>
+                </select>
+            </div>
+            <button onclick="informacion_medica()" type="button">Guardar</button>
+        </form>
         
         {{>footer}}
     </div>
