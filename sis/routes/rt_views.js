@@ -23,13 +23,25 @@ router.get('/noticias', [mdwViewsSession], (req, res) => {
             inicio: true,
         });
     } else {
-        res.render('views/noticias', {
-            layout: '',
-            inicio: false,
-            activo: (usuario.estado == 0) ? false : true,
-            usuario: usuario.idCliente,
-            email: usuario.email
-        });
+
+        if(usuario.estado == 0){
+            res.render('views/noticias', {
+                layout: '',
+                inicio: false,
+                activo: true,
+                usuario: usuario.idCliente,
+                email: usuario.email
+            });
+        } else {
+            res.render('views/noticias', {
+                layout: '',
+                inicio: false,
+                activo: false,
+                usuario: usuario.idCliente,
+                email: usuario.email
+            });
+        }
+        
     }
    
 })
