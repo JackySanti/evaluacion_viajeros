@@ -347,6 +347,26 @@ function resultado_prueba() {
         .catch(error => console.error('Error:', error))
 }
 
+function generar_pdf() {
+    let pdf = 1;
+
+    fetch('/generar_pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pdf })
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                let result = response;
+                if(result.estado == 1) {
+                    sweetAlert(2, 'success', 'PDF Generado', 'Recuerde imprimir el pdf con los resultados antes de abordar.');
+                }
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
 // FUNCIONES DE LOS ADMINISTRADORES
 function consultar_usuario(idUsuario){
     fetch('/consultar_usuario', {

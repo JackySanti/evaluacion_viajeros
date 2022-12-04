@@ -260,6 +260,18 @@ const usuario = {
             throw err
         }
     },
+    consultaResultadosViaje: async (usuario) => {
+        try{
+            let result = await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM RESULTADOS WHERE id_usuario = @IDUSUARIO`);
+
+            return {estado: 1, mensaje: '', consulta: result.recordset[0]}
+        
+        } catch(err){
+            throw err
+        }
+    }
 }
 
 const administrador = {

@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../db/db')
+const pdf = require('pdfkit')
+const fs = require('fs')
+
 
 router.post('/iniciar_sesion', async (req, res) => {
     try{
@@ -176,7 +179,80 @@ router.post('/resultados_pasaje', async (req, res) => {
             return res.json(registro);
         }
 
-        
+    } catch (err) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
+router.post('/generar_pdf', async (req, res) => {
+    try{
+        let usuario = req.session.user.idCliente;
+        let result = await db.usuario.consultaResultadosViaje(usuario);
+        let datos = result.consulta;
+        let doc = new pdf();
+
+        console.log(datos);
+
+        doc.pipe(fs.createWriteStream( __dirname + '/pdf/DocResutaldos.pdf'));
+
+        doc.text('RESULTADOS DE SEGUIMIENTO', {
+            align: 'center'
+
+        });
+        doc.text('', {
+            align: 'center'
+
+        });
+
+        doc.text('Permiso de viajar:', {
+            align: 'left'
+        });
+        if (datos.pcovid == 'Negativo') {
+            doc.text('Aprobado', {
+                align: 'left'
+            });
+        } else{
+            doc.text('Denegado', {
+                align: 'left'
+            });
+        }
+        doc.text('', {
+            align: 'center'
+        });
+
+
+        doc.text('Prueba estándar de reacción en cadena de la polimerasa (PCR) para covid-19 (Al menos 48 horas antes de viajar):', {
+            align: 'left'
+        });
+        doc.text(datos.pcovid, {
+            align: 'left'
+        });
+        doc.text('', {
+            align: 'center'
+        });
+
+
+        doc.text('Cumplió con los 14 días de seguimiento antes y despúes del viaje (App + dispositivos portable):', {
+            align: 'left'
+        });
+        doc.text(datos.historial, {
+            align: 'left'
+        });
+        doc.text('', {
+            align: 'center'
+        });
+
+
+        doc.text('Cuarentena:', {
+            align: 'left'
+        });
+        doc.text(datos.cuarentena, {
+            align: 'left'
+        });
+
+        doc.end();
+        return res.json(result);
 
     } catch (err) {
         console.log(err)
