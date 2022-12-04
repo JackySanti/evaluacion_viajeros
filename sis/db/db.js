@@ -231,7 +231,7 @@ const administrador = {
     informacionUsuario: async (usuario) => {
         try {
             let result = await sql_conn.request()
-            .input('IDUSUARIO', sql.Int, usuario)
+            .input('IDUSUARIO', sql.Int, usuario.idUsuario)
             .query(`SELECT * FROM VT_INFO_USUARIO WHERE id_usuario = @IDUSUARIO`)
 
             return { estado: 1, mensaje: '', consulta: result.recordsets};

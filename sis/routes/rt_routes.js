@@ -283,6 +283,18 @@ router.post('/consultar_administrador', async (req, res) => {
     }
 })
 
+router.post('/consultar_usuario', async (req, res) =>{
+    try {
+        let data = req.body;
+        let result = await db.administrador.informacionUsuario(data);
+
+        return res.json(result);
+    } catch (error) {
+        console.log(err)
+        res.json({ estado: 0 });
+    }
+})
+
 router.put('/eliminar_pasajero', async (req, res) => {
     try {
         let data = req.body;

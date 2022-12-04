@@ -322,6 +322,35 @@ function signos() {
 }
 
 // FUNCIONES DE LOS ADMINISTRADORES
+function consultar_usuario(idUsuario){
+    fetch('/consultar_usuario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idUsuario })
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                let usuario = response.consulta;
+               
+
+                console.log(usuario);
+                // $('#idUsuario').val(admin.id_usuario);
+                // $('#nombre_up').val(admin.nombre);
+                // $('#paterno_up').val(admin.paterno);
+                // $('#materno_up').val(admin.materno);
+                // $('#correo_up').val(admin.correo);
+                // $('#estado').val((admin.estado == true) ? 'Activo' : 'Inactivo');
+
+                
+                // $('#idUsuario').hide();
+               
+                // $('#consultaAdmin').modal('show');
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
 function eliminar_usuario(idUsuario){
     Swal.fire({
         title: 'Eliminar pasajero',
