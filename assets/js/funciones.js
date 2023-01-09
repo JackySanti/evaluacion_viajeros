@@ -81,10 +81,10 @@ function getFormulario(idForm, atributos) {
     return _json
 }
 
-function limpiarFormulario(idForm, idAlert) {
-    if (idAlert) {
-        var alert = document.getElementById(`${idAlert}`);
-        alert.style.display = 'none';
-    }
-    return document.getElementById(`${idForm}`).reset()
-}
+// function limpiarFormulario(idForm, idAlert) {
+//     if (idAlert) {
+//         var alert = document.getElementById(`${idAlert}`);
+//         alert.style.display = 'none';
+//     }
+//     return document.getElementById(`${idForm}`).reset()
+// }

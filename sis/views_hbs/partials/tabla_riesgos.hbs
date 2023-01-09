@@ -2,9 +2,6 @@
     <thead class="table-dark">
         <tr>
             <th style="text-align:center;">Tipo</th>
-            <th style="text-align:center;">Puntaje Alto</th>
-            <th style="text-align:center;">Puntaje Medio</th>
-            <th style="text-align:center;">Puntaje Bajo</th>
             <th style="text-align:center;">Riesgo Alto</th>
             <th style="text-align:center;">Riesgo Medio</th>
             <th style="text-align:center;">Riesgo Bajo</th>
@@ -18,9 +15,6 @@
                 <td style="text-align:center;">{{p_alto}}</td>
                 <td style="text-align:center;">{{p_medio}}</td>
                 <td style="text-align:center;">{{p_bajo}}</td>
-                <td>{{e_alto}}</td>
-                <td>{{e_medio}}</td>
-                <td>{{e_bajo}}</td>
                 <td style="text-align:center;">
                     <button type="button" class="btn btn-secondary" onclick='consultar_puntaje({{numero}}, "{{id_factor}}")'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -30,6 +24,18 @@
                     </button>
                 </td>
             </tr>
-        {{/each}}         
+        {{/each}}    
+        {{#each factor}}
+            <tr>
+                <td style="max-width: 25rem;">{{descripcion}}</td>
+                <td>{{e_alto}}</td>
+                <td>{{e_medio}}</td>
+                <td>{{e_bajo}}</td>
+                <td style="text-align:center;">
+                </td>
+            </tr>
+        {{/each}} 
+        
+                     
     </tbody>
 </table>

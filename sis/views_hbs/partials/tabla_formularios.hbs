@@ -1,0 +1,36 @@
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th style="text-align:center;">Nombre</th>
+            <th style="text-align:center;">Permiso para editar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each data}}
+            <tr>
+                <td>Identificación del Pasajero</td>
+                <td style="text-align:center;">{{#if IDPASJ}} Aceptado {{else}} Denegado {{/if}}</td>
+            </tr>
+            <tr>
+                <td>Contacto personal</td>
+                <td style="text-align:center;">{{#if CONPER}} Aceptado {{else}} Denegado {{/if}}</td>
+            </tr>
+            <tr>
+                <td>Información del viaje</td>
+                <td style="text-align:center;">{{#if INFVIJ}} Aceptado {{else}} Denegado {{/if}}</td>
+            </tr>
+            <tr>
+                <td>Condición Médica</td>
+                <td style="text-align:center;">{{#if CONMED}} Aceptado {{else}} Denegado {{/if}}</td>
+            </tr>
+            <tr>
+                <td>Información médica relacionada con COVID-19</td>
+                <td style="text-align:center;">{{#if INMRCV}} Aceptado {{else}} Denegado {{/if}}</td>
+            </tr>
+             <tr>
+                <td>Exposición directa con un paciente COVID-19 positivo </td>
+                <td style="text-align:center;">{{#if EXPDPC}} Aceptado {{else}} Denegado {{/if}}</td>
+            </tr>
+        {{/each}}
+   </tbody>
+</table>

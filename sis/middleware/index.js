@@ -1,7 +1,6 @@
 const db = require('../db/db');
 
 const mdwViewsSession = (req, res, next) => {
-    console.log(req.session.user);
     if(req.session.user){
         return next();
     }
@@ -11,7 +10,6 @@ const mdwViewsSession = (req, res, next) => {
 
 const mdwPasajero= (req, res, next) => {
     let usuario = req.session.user;
-    console.log(req.session.user);
 
     if(usuario.tipo == 0){
         return next();
@@ -20,10 +18,24 @@ const mdwPasajero= (req, res, next) => {
         return res.redirect('/noticias')
 }
 
+const validacionResultados = async (req, res, next) => {
+    try{
+        let usuario = req.session.user.idCliente;   
+        let resultado = await db.usuario.validacionFechaPartida(usuario);
+
+        if(resultado.estado == 1){
+            return next();
+        }
+        else
+            return res.redirect('/noticias')
+
+    } catch(err){
+        throw err;
+    }
+}
 
 const mdwAdministrador = (req, res, next) => {
     let usuario = req.session.user;
-    console.log(req.session.user);
 
     if(usuario.tipo == 1){
         return next();
@@ -45,5 +57,6 @@ module.exports={
     mdwViewsSession,
     mdwReturnNoticias,
     mdwAdministrador,
-    mdwPasajero
+    mdwPasajero,
+    validacionResultados
 }

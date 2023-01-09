@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    {{!--
+    <link rel="stylesheet" href="css/index.css"> --}}
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>Evaluación Viajeros</title>
+    {{>styles}}
+    <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
+
+<body>
+    {{>header}}
+    <div class="contenedor">
+        <div class="contenido">
+            <h1>Formularios</h1>
+            <p>Esta sección permite que los pasajeros puedan editar sus registros en los formularios.</p>
+            <br>
+            <main>
+                <div class="row">
+                    <div class="col-8"> </div>
+                    <div class="col-4 btnadmin">
+                        <button type="button" id="btnexampleModal" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+                            </svg>
+                             Editar permisios
+                        </button>
+                    </div>
+                </div>
+
+                <br>
+
+                <div id="tabla_formulario">
+                    {{>tabla_formularios}}
+                </div>
+
+                {{>footer}}
+            
+            </main>
+        </div>
+        {{>sidebar}}
+    </div>
+      
+      <!-- Modal para editar fomularios -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Permisos para editar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_Permisos">
+                            {{#each data}}
+                                <div class="coupon-input form-row-last">
+                                    <label>Identificación del Pasajero</label>
+                                    <select name="IDPASJ" id="IDPASJ" class="form-select">
+                                        <option value="1"  {{#if IDPASJ}} selected {{/if}} >Aceptar</option>
+                                        <option value="0"  {{#if IDPASJ}} {{else}} selected {{/if}} >Denegar</option>
+                                    </select>
+                                </div>
+
+                                <div class="coupon-input form-row-last">
+                                    <label>Contacto personal</label>
+                                    <select name="CONPER" id="CONPER" class="form-select">
+                                        <option value="1"  {{#if CONPER}} selected {{/if}} >Aceptar</option>
+                                        <option value="0"  {{#if CONPER}} {{else}} selected {{/if}} >Denegar</option>
+                                    </select>
+                                </div>
+
+                                <div class="coupon-input form-row-last">
+                                    <label>Información del viaje</label>
+                                    <select name="INFVIJ" id="INFVIJ" class="form-select">
+                                        <option value="1"  {{#if INFVIJ}} selected {{/if}} >Aceptar</option>
+                                        <option value="0"  {{#if INFVIJ}} {{else}} selected {{/if}} >Denegar</option>
+                                    </select>
+                                </div>
+
+                                <div class="coupon-input form-row-last">
+                                    <label>Condición Médica</label>
+                                    <select name="CONMED" id="CONMED" class="form-select">
+                                        <option value="1"  {{#if CONMED}} selected {{/if}} >Aceptar</option>
+                                        <option value="0"  {{#if CONMED}} {{else}} selected {{/if}} >Denegar</option>
+                                    </select>
+                                </div>
+
+                                <div class="coupon-input form-row-last">
+                                    <label>Información médica relacionada con COVID-19</label>
+                                    <select name="INMRCV" id="INMRCV" class="form-select">
+                                        <option value="1"  {{#if INMRCV}} selected {{/if}} >Aceptar</option>
+                                        <option value="0"  {{#if INMRCV}} {{else}} selected {{/if}} >Denegar</option>
+                                    </select>
+                                </div>
+
+                                <div class="coupon-input form-row-last">
+                                    <label>Exposición directa con un paciente COVID-19 positivo </label>
+                                    <select name="EXPDPC" id="EXPDPC" class="form-select">
+                                        <option value="1"  {{#if EXPDPC}} selected {{/if}} >Aceptar</option>
+                                        <option value="0"  {{#if EXPDPC}} {{else}} selected {{/if}} >Denegar</option>
+                                    </select>
+                                </div>
+                            {{/each}}
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary"
+                            onclick="actualizar_formularios()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {{>script}}
+</body>
+
+</html>

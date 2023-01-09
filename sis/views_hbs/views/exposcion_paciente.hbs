@@ -1,67 +1,163 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <title>Evaluación Viajeros</title>
     {{>styles}}
     <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>		
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
-<body>
-    <div class="container-fluid">
-        {{>header}}
-        
-        <h4>Exposición directa con un paciente COVID-19 positivo</h4>
 
-        <form id="form_exposicion">
-            <label>Haber estado en contacto estrecho con alguien diagnosticado con COVID-19? (últimos 14 días)</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1" value="Si">
-                    Si
-                </label>
-                </div>
-                <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                <label class="form-check-label" for="flexRadioDefault2" value="No">
-                    No
-                </label>
-            </div>
-            <label>¿Te han diagnosticado COVI-19? </label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefaultdos" id="flexRadioDefault3">
-                <label class="form-check-label" for="flexRadioDefault3">
-                    Si
-                </label>
-                </div>
-                <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefaultdos" id="flexRadioDefault4">
-                <label class="form-check-label" for="flexRadioDefault3">
-                    No
-                </label>
-            </div>
-            <p class="coupon-input form-row-last">
-				<label>¿Si la respuesta es sí, cuando se detectó la infección? (fecha)</label>
-				<div class='input-group date mb-0 datePicker' >
-					<input id="f_nacimiento" name="f_nacimiento" type='text' class="form-control form-control-sm main-search custom-height"/>
-                    <div class="input-group-append ">
-                        <span type="button" class="input-group-text py-0"><span class="fa fa-calendar"></span></span>
-	         		</div>
-				</div>
-			</p>
-                
-            <button onclick="exposicion_directa()" type="button">Guardar</button>
-        </form>
+<body>
+    {{>header}}
         
+    <div class="contenedor">
+        <div class="contenido">
+            <h1 class="confirmacion">Exposición directa <br> con un paciente COVID-19 positivo</h1>
+
+            {{#if registro}}
+                {{#if permiso}}
+                <h4 class="confirmacion">Marque las casillas para confirmar su respuesta.</h4>
+                    <br>
+                    <form id="form_exposicion" class="expo ">
+                        <ul>
+                            <li>
+                                <label class="formulario_label">Haber estado en contacto estrecho con alguien diagnosticado con COVID-19? (últimos 14
+                                    días)</label>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" {{#if diagnositco}} checked {{else}}  {{/if}} name="flexRadioDefault" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1" value="Si">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" {{#if diagnositco}}  {{else}} checked {{/if}} name="flexRadioDefault" id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2" value="No">
+                                        No
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <label class="formulario_label">¿Te han diagnosticado COVID-19? </label>
+                                <div class="form-check">
+                                    <input class="form-check-input"  type="radio"  {{#if diagnositco}} checked {{else}}  {{/if}} name="flexRadioDefaultdos"
+                                        id="flexRadioDefault3">
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"  {{#if diagnositco}}  {{else}} checked {{/if}} name="flexRadioDefaultdos"
+                                        id="flexRadioDefault4">
+                                    <label class="form-check-label" for="flexRadioDefault4">
+                                        No
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="formulario_grupo" id="grupo_fecha_contagio"></div>
+                                <label class="formulario_label">¿Si la respuesta es sí, cuando se detectó la infección?
+                                    (fecha):</label>
+                                <div class="formulario_grupo-input">
+                                    <input type="date" class="formulario_input" name="f_contagio" id="f_contagio"
+                                        placeholder="aaaa-mm-dd">
+                                </div><br>
+                                <div class="formulario_grupo formulario_grupo-btn-enviar">
+                                    <button onclick="exposicion_directa()" type="button" class="formulario_btn">Editar</button>
+                                </div>
+                    </form>
+                {{else}}
+                    <div class="container-fluid">
+                        {{#each data}}
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <p><strong>Haber estado en contacto estrecho con alguien diagnosticado con COVID-19? (últimos 14 días)</strong> <br> {{#if contacto}} Si {{else}} No {{/if}}</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <p><strong>¿Te han diagnosticado COVID-19?</strong> <br> {{#if diagnositco}} Si {{else}} No {{/if}}</p>
+                                </div>
+                            </div>	
+                            {{#if diagnositco}}
+                                <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <p><strong>Fecha: </strong> {{fecha}}</p>
+                                    </div>
+                                </div>
+                            {{/if}}
+                            
+                        {{/each}}	
+                    </div>
+                {{/if}}
+            {{else}}
+                <h4 class="confirmacion">Marque las casillas para confirmar su respuesta.</h4>
+                    <br>
+                    <form id="form_exposicion" class="expo ">
+                        <ul>
+                            <li>
+                                <label class="formulario_label">Haber estado en contacto estrecho con alguien diagnosticado con COVID-19? (últimos 14
+                                    días)</label>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1" value="Si">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2" value="No">
+                                        No
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <label class="formulario_label">¿Te han diagnosticado COVID-19? </label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefaultdos"
+                                        id="flexRadioDefault3">
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefaultdos"
+                                        id="flexRadioDefault4">
+                                    <label class="form-check-label" for="flexRadioDefault4">
+                                        No
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="formulario_grupo" id="grupo_fecha_contagio"></div>
+                                <label class="formulario_label">¿Si la respuesta es sí, cuando se detectó la infección?
+                                    (fecha):</label>
+                                <div class="formulario_grupo-input">
+                                    <input type="date" class="formulario_input" name="f_contagio" id="f_contagio"
+                                        placeholder="aaaa-mm-dd">
+                                </div><br>
+                                <div class="formulario_grupo formulario_grupo-btn-enviar">
+                                    <button onclick="exposicion_directa()" type="button" class="formulario_btn">Guardar</button>
+                                </div>
+                    </form>
+            {{/if}}
+            
+            </main>
+        </div>
+        {{>sidebar}}
+
         {{>footer}}
     </div>
-    
     {{>script}}
 </body>
+
 </html>

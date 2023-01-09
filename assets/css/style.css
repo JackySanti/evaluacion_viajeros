@@ -5,15 +5,15 @@
     font-family: "Poppins", sans-serif;
 }
 
-header{
-    margin-bottom: 5rem;
-}
-
 /*navegacion secundaria*/
 ul {
     list-style: outside none none;
     margin: 0;
     padding: 0
+}
+
+.register{
+    color: #001c4f;
 }
 
 ul li {
@@ -190,6 +190,18 @@ nav ul li ul::before {
 
 } 
 
+.comprobante{
+    align-items: center;
+    text-align: center;
+}
+
+.tituloportada:hover{
+    list-style: none;
+    text-decoration: none;
+
+} 
+
+
 .container-info-cover {
     /* max-width: 800px;
     height: 500px;
@@ -223,6 +235,13 @@ nav ul li ul::before {
     font-weight: 500;
     color: #0f76bf;
     margin-bottom: 20px;
+}
+
+.btnadmin{
+    /* display: flex;
+    flex-direction: column; */
+    align-items: center !important;
+    text-align: center !important;
 }
 
 .container-info-cover1 h3:hover {

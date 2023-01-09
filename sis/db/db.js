@@ -106,11 +106,13 @@ const usuario = {
     },
     condicionMedica:async (usuario, data)=>{
         try{
+            console.log(data);
             await sql_conn.request()
             .input('IDUSUARIO', sql.Int, usuario)
             .input('CONDICION', sql.Text, data.objeto)
-            .query(`INSERT INTO CONDICIONMEDICA(id_usuario, condicion, estado)
-            VALUES(@IDUSUARIO, @CONDICION, 1)`);
+            .input('PUNTAJE', sql.Int, data.puntaje)
+            .query(`INSERT INTO CONDICIONMEDICA(id_usuario, condicion, estado, puntaje)
+            VALUES(@IDUSUARIO, @CONDICION, 1, @PUNTAJE)`);
 
             return {estado: 1}
         
@@ -161,8 +163,9 @@ const usuario = {
             await sql_conn.request()
             .input('IDUSUARIO', sql.Int, usuario)
             .input('SINTOMAS', sql.Text, data.objeto)
-            .query(`INSERT INTO INFORMACIONCOVID(id_usuario, sintomas, estado)
-            VALUES(@IDUSUARIO, @SINTOMAS, 1)`);
+            .input('PUNTAJE', sql.Int, data.puntaje)
+            .query(`INSERT INTO INFORMACIONCOVID(id_usuario, sintomas, estado, puntaje)
+            VALUES(@IDUSUARIO, @SINTOMAS, 1, @PUNTAJE)`);
 
             return {estado: 1}
         
@@ -185,10 +188,10 @@ const usuario = {
             } else {
                 await sql_conn.request()
                 .input('IDUSUARIO', sql.Int, usuario)
-                .input('CONTACTO', sql.Bit, data.temperatura)
-                .input('DIAGNOSTICO', sql.Bit, data.respiratoria)
+                .input('CONTACTO', sql.Bit, data.contacto)
+                .input('DIAGNOSTICO', sql.Bit, data.diagnostico)
                 .query(`INSERT INTO EXPOSICIONCOVID(id_usuario, contacto, diagnositco, estado)
-                VALUES(@IDUSUARIO, 0, 0, 1)`);
+                VALUES(@IDUSUARIO, @CONTACTO, @DIAGNOSTICO, 1)`);
             }
            
             return {estado: 1}
@@ -196,6 +199,22 @@ const usuario = {
         } catch(err){
             throw err
         }
+    },
+    validacionSignosRegistro: async (usuario) => {
+        try{
+            let result = await  sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario)
+                .query(`SELECT * FROM SIGNOS WHERE id_usuario = @IDUSUARIO  AND DAY(cuando) = DAY(GETDATE()) 
+                AND MONTH(cuando) = MONTH(GETDATE()) AND YEAR(cuando) = YEAR(GETDATE()) `);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 0, mensaje: 'Ya cargaste tu registro diario, mañana podrás registrar tus signos nuevamente.'};
+            } else { 
+                return { estado: 1, mensaje: '' }; 
+            }
+        } catch(err){
+            throw err
+        }   
     },
     signosPersonal: async (usuario, data) => {
         try{
@@ -206,8 +225,8 @@ const usuario = {
             .input('CARDIACA', sql.NVarChar, data.cardiaca)
             .input('OXIGENO', sql.NVarChar, data.oxigeno)
             .input('ARTERIAL', sql.NVarChar, data.arterial)
-            .query(`INSERT INTO SIGNOS(id_usuario, temperatura, f_respiratoria, f_cardiaca, s_oxigeno, t_arterial, estado)
-            VALUES(@IDUSUARIO, @TEMPERATURA, @RESPIRATORIA, @CARDIACA, @OXIGENO, @ARTERIAL, 1)`);
+            .query(`INSERT INTO SIGNOS(id_usuario, temperatura, f_respiratoria, f_cardiaca, s_oxigeno, t_arterial, estado, cuando)
+            VALUES(@IDUSUARIO, @TEMPERATURA, @RESPIRATORIA, @CARDIACA, @OXIGENO, @ARTERIAL, 1, GETDATE())`);
            
             return {estado: 1}
         
@@ -215,7 +234,23 @@ const usuario = {
             throw err
         }
     },
-    actualizacionResultados: async()=>{
+    validacionSignosRegistro2: async (usuario) => {
+        try{
+            let result = await  sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario)
+                .query(`SELECT * FROM SIGNOS_POSTERIOR WHERE id_usuario = @IDUSUARIO  AND DAY(cuando) = DAY(GETDATE()) 
+                AND MONTH(cuando) = MONTH(GETDATE()) AND YEAR(cuando) = YEAR(GETDATE()) `);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 0, mensaje: 'Ya cargaste tu registro diario, mañana podrás registrar tus signos nuevamente.'};
+            } else { 
+                return { estado: 1, mensaje: '' }; 
+            }
+        } catch(err){
+            throw err
+        }   
+    },
+    signosPersonal2: async (usuario, data) => {
         try{
             await sql_conn.request()
             .input('IDUSUARIO', sql.Int, usuario)
@@ -224,8 +259,8 @@ const usuario = {
             .input('CARDIACA', sql.NVarChar, data.cardiaca)
             .input('OXIGENO', sql.NVarChar, data.oxigeno)
             .input('ARTERIAL', sql.NVarChar, data.arterial)
-            .query(`INSERT INTO SIGNOS(id_usuario, temperatura, f_respiratoria, f_cardiaca, s_oxigeno, t_arterial, estado)
-            VALUES(@IDUSUARIO, @TEMPERATURA, @RESPIRATORIA, @CARDIACA, @OXIGENO, @ARTERIAL, 1)`);
+            .query(`INSERT INTO SIGNOS_POSTERIOR(id_usuario, temperatura, f_respiratoria, f_cardiaca, s_oxigeno, t_arterial, estado, cuando)
+            VALUES(@IDUSUARIO, @TEMPERATURA, @RESPIRATORIA, @CARDIACA, @OXIGENO, @ARTERIAL, 1, GETDATE())`);
            
             return {estado: 1}
         
@@ -233,13 +268,110 @@ const usuario = {
             throw err
         }
     },
-    consultaSignosUsuario: async(usuario) => {
+    tablaSignosAnterior: async(usuario) => {
         try{
             let result = await  sql_conn.request()
             .input('IDUSUARIO', sql.Int, usuario)
-            .query(`SELECT COUNT(*) AS signos FROM SIGNOS WHERE id_usuario = @IDUSUARIO`);
+            .query(`SELECT * FROM SIGNOS WHERE id_usuario = @IDUSUARIO`);
             
-            return { estado: 1, mensaje: '', consulta: result.recordset[0]};
+            return { estado: 1, mensaje: '', consulta: result.recordset};
+        } catch(err){
+            throw err
+        }
+    },
+    contadorSignosAnterior: async(usuario) => {
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT COUNT(*) AS resultado FROM SIGNOS WHERE id_usuario = @IDUSUARIO`);
+
+            let consulta = result.recordset[0];
+
+            if(consulta.resultado == 0){
+                return { estado: 0, consulta: consulta};
+            } else {
+                return { estado: 1, consulta: consulta};
+            }
+        } catch(err){
+            throw err
+        }
+    },
+    tablaSignosPosterior: async(usuario) => {
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM SIGNOS_POSTERIOR WHERE id_usuario = @IDUSUARIO`);
+            
+            return { estado: 1, mensaje: '', consulta: result.recordset};
+        } catch(err){
+            throw err
+        }
+    },
+    contadorSignosPosterior: async(usuario) => {
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT COUNT(*) AS resultado FROM SIGNOS_POSTERIOR WHERE id_usuario = @IDUSUARIO`);
+            
+            let consulta = result.recordset[0];
+
+            if(consulta.resultado == 0){
+                return { estado: 0, consulta: consulta};
+            } else {
+                return { estado: 1, consulta: consulta};
+            }
+
+        } catch(err){
+            throw err
+        }
+    },
+    validacionFechaPartida: async(usuario) => {
+        try{
+            let result = await  sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario)
+                .query(`SELECT* FROM INFORMACIONVIAJE WHERE id_usuario = @IDUSUARIO  AND DAY(f_partida) >= DAY(GETDATE()) 
+                AND MONTH(f_partida) >= MONTH(GETDATE()) AND YEAR(f_partida) >= YEAR(GETDATE())`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1};
+            } else { 
+                return { estado: 0}; 
+            }
+        } catch(err){
+            throw err
+        } 
+        
+    },
+    validacionFechaLlegada: async(usuario) => {
+        try{
+            let result = await  sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario)
+                .query(`SELECT* FROM INFORMACIONVIAJE WHERE id_usuario = @IDUSUARIO  AND DAY(f_llegada) < DAY(GETDATE()) 
+                AND MONTH(f_llegada) < MONTH(GETDATE()) AND YEAR(f_llegada) < YEAR(GETDATE())`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1};
+            } else { 
+                return { estado: 0, mensaje: 'Tu viaje no ha finalizado, podrás realizar el registro una vez que tu viaje termine.'}; 
+            }
+        } catch(err){
+            throw err
+        } 
+        
+    },
+    calculoPuntaje: async(usuario) => {
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM VT_CALCULO_PUNTAJE WHERE id_usuario = @IDUSUARIO`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1, mensaje: '', consulta: result.recordset[0]};
+            } else{
+                return { estado: 0 }
+            }
+            
+            
         } catch(err){
             throw err
         }
@@ -260,6 +392,38 @@ const usuario = {
             throw err
         }
     },
+    actualizarResultado: async (usuario, puntaje, historial, cuarentena) => {
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('PUNTAJE', sql.Int, puntaje)
+            .input('HISTORIAL', sql.NVarChar, historial)
+            .input('CUARENTENA', sql.NVarChar, cuarentena)
+            .query(`UPDATE RESULTADOS SET puntaje = @PUNTAJE, historial = @HISTORIAL, cuarentena = @CUARENTENA WHERE id_usuario = @IDUSUARIO`);
+
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    consultaResultados :async (usuario) => {
+        try{
+           let result = await sql_conn.request()
+                .input('IDUSUARIO', sql.Int, usuario.idCliente)
+                .query(`SELECT * FROM RESULTADOS WHERE id_Usuario = @IDUSUARIO`)
+                
+            if(result.rowsAffected[0] == 1){
+                return { estado: 1, mensaje: '', consulta: result.recordset}
+            } else {
+                return { estado: 0, mensaje: '' }
+            }
+            
+
+        } catch(err){
+            throw err;
+        }
+    },
     consultaResultadosViaje: async (usuario) => {
         try{
             let result = await sql_conn.request()
@@ -271,6 +435,64 @@ const usuario = {
         } catch(err){
             throw err
         }
+    },
+    factorARFT: async (usuario) => {
+        try{
+            let result = await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM FACTORESRIESGO WHERE id_factor = 'ARFT'`);
+
+            return {estado: 1, mensaje: '', consulta: result.recordset[0]}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    rutaPDF: async (usuario, relativa, absoluta) => {
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('ABSOLUTA', sql.Text, absoluta)
+            .input('RELATIVA', sql.Text, relativa)
+            .query(`UPDATE RESULTADOS SET rabsoluta = @ABSOLUTA, rrelativa = @RELATIVA WHERE id_usuario = @IDUSUARIO`);
+
+            return {estado: 1, mensaje: absoluta}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    comprobanteVacunacion: async (usuario, relativa, absoluta, nameFile) => {
+        try{
+            await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .input('ABSOLUTA', sql.Text, absoluta)
+            .input('RELATIVA', sql.Text, relativa)
+            .input('FILE', sql.Text, nameFile)
+            .query(`INSERT INTO COMPROBANTEVACUNACION(id_usuario, r_absoluta, r_relativa, nombre) VALUES (@IDUSUARIO, @ABSOLUTA, @RELATIVA, @FILE)`);
+
+            return {estado: 1}
+        
+        } catch(err){
+            throw err
+        }
+    },
+    consultaComprobante: async (usuario) => {
+        try{
+            let result = await sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT COUNT(*) AS comprobante FROM COMPROBANTEVACUNACION WHERE id_usuario = @IDUSUARIO`);
+
+            let consulta = result.recordset[0];
+
+            if (consulta.comprobante == 1) {
+                return {estado: 1}
+            } else { 
+                return { estado: 0} 
+            }
+        } catch(err){
+            throw err
+        }
     }
 }
 
@@ -278,9 +500,24 @@ const administrador = {
     tablaUsuarios: async () => {
         try {
             let result = await  sql_conn.request()
-            .query('SELECT * FROM USUARIOS WHERE tipo = 0 and estado = 1');
+            .query(`SELECT DISTINCT a.* , (SELECT COUNT(*) FROM SIGNOS WHERE id_usuario = a.id_usuario ) as SIGNOS FROM USUARIOS a
+            WHERE a.tipo = 0 AND a.estado = 1 `);
 
-            return { estado: 1, mensaje: '', consulta: result.recordset};
+            let consulta = result.recordset;
+
+            consulta.filter((elem, index) =>{
+                if(elem.SIGNOS == 14){
+                    consulta[index] = {
+                        id_usuario: elem.id_usuario,
+                        correo: elem.correo,
+                        nombre: elem.nombre,
+                        paterno: elem.paterno,
+                        materno: elem.materno
+                    }
+                }
+            })
+
+            return { estado: 1, mensaje: '', consulta: consulta};
         } catch(err){
             throw err;
         }
@@ -402,7 +639,17 @@ const administrador = {
     tablaFactoresRiesgo: async () => {
         try {
             let result = await sql_conn.request()
-            .query(`SELECT * FROM FACTORESRIESGO`)
+            .query(`SELECT * FROM FACTORESRIESGO WHERE id_factor = 'ARFT'`)
+
+            return { estado: 1, mensaje: '', consulta: result.recordset};
+        } catch(err){
+            throw err;
+        }
+    },
+    tablaFactoresRiesgo2: async () => {
+        try {
+            let result = await sql_conn.request()
+            .query(`SELECT * FROM FACTORESRIESGO WHERE id_factor != 'ARFT'`)
 
             return { estado: 1, mensaje: '', consulta: result.recordset};
         } catch(err){
@@ -442,26 +689,151 @@ const administrador = {
             throw err;
         }
     },
-    consultaResultados :async (usuario) => {
-        try{
-           let result = await sql_conn.request()
-                .input('IDUSUARIO', sql.Int, usuario.idCliente)
-                .query(`SELECT * FROM RESULTADOS WHERE id_Usuario = @IDUSUARIO`)
-                
-            if(result.rowsAffected[0] == 1){
-                return { estado: 1, mensaje: '', consulta: result.recordset}
-            } else {
-                return { estado: 0, mensaje: '' }
-            }
+    permisoFormularios: async() => {
+        try {
+            let result = await sql_conn.request()
+                .query(`SELECT * FROM FORMULARIOSEDITAR`);
             
-
+            return { estado: 1,  data : result.recordset};
         } catch(err){
             throw err;
         }
     },
+    actualizarPermisosFormularios: async(data) => {
+        try {
+            await  sql_conn.request()
+                .input('idpasj', sql.Bit, (data[0] == '0') ? false : true )
+                .input('conper', sql.Bit, (data[1] == '0') ? false : true )
+                .input('infvij', sql.Bit, (data[2] == '0') ? false : true )
+                .input('conmed', sql.Bit, (data[3] == '0') ? false : true )
+                .input('inmrcv', sql.Bit, (data[4] == '0') ? false : true )
+                .input('expdcp', sql.Bit, (data[5] == '0') ? false : true )
+                .query(`UPDATE FORMULARIOSEDITAR SET IDPASJ = @idpasj, CONPER = @conper, INFVIJ = @infvij, 
+                CONMED = @conmed, INMRCV = @inmrcv, EXPDPC = @expdcp`);
+                
+            return { estado: 1, mensaje: ''};
+
+        } catch(err){
+            throw err;
+        }
+    }
+}
+
+const informacion = {
+    cambioEstado: async(usuario, tabla) =>{
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`UPDATE ${tabla} SET estado = 0 WHERE id_usuario = @IDUSUARIO`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1};
+            } else { 
+                return { estado: 0}; 
+            }
+        } catch(err){
+            throw err
+        }
+    },
+    identificacionPasajero: async (usuario) =>{
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT id_dato, p_nacimiento, edad, CONVERT(varchar,f_nacimiento,101) as f_nacimiento,
+            pasaporte, p_validacion, CONVERT(varchar,f_expiracion,101) as f_expiracion, ocupacion
+            FROM DATOSPERSONALES WHERE id_usuario = @IDUSUARIO`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1, consulta: result.recordset};
+            } else { 
+                return { estado: 0}; 
+            }
+        } catch(err){
+            throw err
+        }
+    },
+    contactoPersonal: async (usuario) =>{
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM CONTACTOPERSONAL WHERE id_usuario = @IDUSUARIO AND estado = 1`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1, consulta: result.recordset};
+            } else { 
+                return { estado: 0}; 
+            }
+        } catch(err){
+            throw err
+        }
+    },
+    informacionViaje: async (usuario) =>{
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT id_viaje, CONVERT(varchar,f_llegada,101) as f_llegada, CONVERT(varchar,f_partida,101) as f_partida,
+            cd_entrada, cd_salida, m_viaje, n_asiento, n_acomanantes, n_estancia, calle, numero, colonia, cp, provincia,
+            pais, mtv_viaje, l_paises
+            FROM  INFORMACIONVIAJE WHERE id_usuario = @IDUSUARIO AND estado = 1`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1, consulta: result.recordset};
+            } else { 
+                return { estado: 0}; 
+            }
+        } catch(err){
+            throw err
+        }
+    },
+    condicionMedica: async (usuario) =>{
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM CONDICIONMEDICA WHERE id_usuario = @IDUSUARIO AND estado = 1`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1, consulta: result.recordset};
+            } else { 
+                return { estado: 0}; 
+            }
+        } catch(err){
+            throw err
+        }
+    },
+    sintomasRelacionados: async (usuario) =>{
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT * FROM INFORMACIONCOVID WHERE id_usuario = @IDUSUARIO AND estado = 1`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1, consulta: result.recordset};
+            } else { 
+                return { estado: 0}; 
+            }
+        } catch(err){
+            throw err
+        }
+    },
+    exposicionCovid: async (usuario) =>{
+        try{
+            let result = await  sql_conn.request()
+            .input('IDUSUARIO', sql.Int, usuario)
+            .query(`SELECT id_exposicion, contacto, diagnositco, CONVERT(varchar,fecha,101) as fecha, estado FROM EXPOSICIONCOVID WHERE id_usuario = @IDUSUARIO AND estado = 1`);
+
+            if (result.rowsAffected[0] == 1) {
+                return { estado: 1, consulta: result.recordset};
+            } else { 
+                return { estado: 0}; 
+            }
+        } catch(err){
+            throw err
+        }
+    }
 }
 
 module.exports = {
     usuario,
-    administrador
+    administrador,
+    informacion
 }

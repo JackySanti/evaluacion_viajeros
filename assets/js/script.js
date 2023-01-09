@@ -1,4 +1,4 @@
-let contacto = 3, diagnostico = 3;
+let contacto = 3, diagnostico = 3, contagio = 0;
 
 $(function () {
     $(".datePicker").datepicker({
@@ -24,12 +24,13 @@ $(function () {
 
     $('#flexRadioDefault4').click(function(){
         diagnostico = 0;
+        contagio = 1;
     });
 });
 
-$('#btnexampleModal').click(function(){
-    limpiarFormulario('form_administrador')
-});
+// $('#btnexampleModal').click(function(){
+//     limpiarFormulario('form_administrador')
+// });
 
 function iniciar_sesion() {
     var formSesion = getFormulario('form_login');
@@ -54,7 +55,7 @@ function iniciar_sesion() {
                     setTimeout(function () { window.location.href = '/noticias' }, 3000)
                 }
                 else {
-                     sweetAlert(2, 'error', 'Acceso denegado', `${response.mensaje}`); 
+                    sweetAlert(2, 'error', 'Acceso denegado', `${response.mensaje}`); 
                 }
             })
             .catch(error => console.error('Error:', error))
@@ -187,6 +188,8 @@ function identificacion_viaje() {
 }
 
 function condicion_medica() {
+    let contador = 0;
+
     var data = {
         diabetes : $('#diabetes').prop('checked'),
         hipertension : $('#hipertension').prop('checked'),
@@ -200,8 +203,22 @@ function condicion_medica() {
         e_pulmonar : $('#pulmonar').prop('checked'),
         e_inmune : $('#inmune').prop('checked'),
         cancer : $('#cancer').prop('checked'),
-        ota: $("#otra").val()
+        otra: $("#otra").val()
     };
+
+    (data.diabetes == 1) ? contador++ : '';
+    (data.hipertension == 1) ? contador++ : '';
+    (data.tabaquismo == 1) ? contador++ : '';
+    (data.alcholismo == 1) ? contador++ : '';
+    (data.obseidad == 1) ? contador++ : '';
+    (data.vacunacion == 1) ? contador++ : '';
+    (data.e_cardiaca == 1) ? contador++ : '';
+    (data.nefropatia == 1) ? contador++ : '';
+    (data.hepatopatia == 1) ? contador++ : '';
+    (data.e_pulmonar == 1) ? contador++ : '';
+    (data.e_inmune == 1) ? contador++ : '';
+    (data.cancer == 1) ? contador++ : '';
+    (data.otra != '') ? contador++ : '';
 
     var objeto = JSON.stringify(data); 
 
@@ -209,7 +226,8 @@ function condicion_medica() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            objeto : objeto
+            objeto : objeto,
+            puntaje: contador
         })
     })
         .then(response => response.json())
@@ -225,6 +243,8 @@ function condicion_medica() {
 }
 
 function informacion_medica() {
+    let contador = 0;
+
     var data = {
         fiebre : $('#fiebre').prop('checked'),
         tos: $('#tos').prop('checked'),
@@ -241,13 +261,29 @@ function informacion_medica() {
         disguesia: $('#disguesia').prop('checked') 
     };
 
+    (data.fiebre == 1) ? contador++ : '';
+    (data.tos == 1) ? contador++ : '';
+    (data.d_respirar == 1) ? contador++ : '';
+    (data.d_garganta == 1) ? contador++ : '';
+    (data.e_nasal == 1) ? contador++ : '';
+    (data.escalofrios == 1) ? contador++ : '';
+    (data.d_toracico == 1) ? contador++ : '';
+    (data.m_general == 1) ? contador++ : '';
+    (data.d_muscular == 1) ? contador++ : '';
+    (data.d_articular == 1) ? contador++ : '';
+    (data.diarrea == 1) ? contador++ : '';
+    (data.anosmia == 1) ? contador++ : '';
+    (data.disguesia == 1) ? contador++ : '';
+
+    console.log(contador);
     var objeto = JSON.stringify(data); 
 
     fetch('/informacion_medica', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            objeto : objeto
+            objeto : objeto,
+            puntaje: contador
         })
     })
         .then(response => response.json())
@@ -269,7 +305,7 @@ function exposicion_directa(){
         return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
     } 
 
-    if(contacto == 1 || diagnostico == 1){
+    if(diagnostico == 1 ){
         if (formExposicion.estado == 0) { 
             return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
         }
@@ -309,12 +345,18 @@ function signos() {
         body: JSON.stringify(formSignos.inputsValue)
     })
         .then(response => response.json())
-        .then(response => {
+        .then(response => { 
             if (response.estado == 1) {
                 sweetAlert(2, 'success', 'Proceso Completado', 'La información se guardó con éxito.');
+                $("#exampleModal").modal('hide');
+                document.getElementById('tabla_signos').innerHTML = response.html;
             }
             else {
-                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+                if(response.mensaje){
+                    sweetAlert(2, 'error', 'Acceso denegado', `${response.mensaje}`); 
+                } else {
+                    sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+                }
             }
         })
         .catch(error => console.error('Error:', error))
@@ -328,6 +370,7 @@ function resultado_prueba() {
         return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
     }
     console.log(formResultado);
+
     fetch('/resultados_pasaje', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -338,7 +381,6 @@ function resultado_prueba() {
             if (response.estado == 1) {
                 $("#btnresult").removeAttr('disabled');
                 sweetAlert(2, 'success', 'Proceso Completado', 'Ya puedes generar tu PDF.');
-
             }
             else {
                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
@@ -358,14 +400,57 @@ function generar_pdf() {
         .then(response => response.json())
         .then(response => {
             if (response.estado == 1) {
-                let result = response;
-                if(result.estado == 1) {
-                    sweetAlert(2, 'success', 'PDF Generado', 'Recuerde imprimir el pdf con los resultados antes de abordar.');
-                }
+                sweetAlert(2, 'success', 'PDF Generado', 'Recuerde imprimir el pdf con los resultados antes de abordar.');
+                descargarPDF(response.mensaje)
+                //setTimeout(function () { window.location.href = '/downloadpdf' }, 5000)
+            } else {
+                sweetAlert(2, 'error', 'No cumples con los requisitos', `${response.mensaje}`); 
             }
         })
         .catch(error => console.error('Error:', error))
 }
+
+function descargarPDF(pdf) {
+    window.location.href = `/downloadpdf/${pdf}`
+}
+
+// ACTUALIZA LA INFORMACION DE LOS USUARIOS
+function update_contacto_personal() {
+    var formContacto = getFormulario('form_contacto');
+
+    if (formContacto.estado == 0) { 
+        return sweetAlert(1, 'warning', 'Información incompleta', 'No se permiten campos vacios'); 
+    }
+
+    if (validacionEmail(formContacto.value[7]) != true) {
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Introduzca un correo electrónico válido'); 
+    }
+
+    if (validacionEmail(formContacto.value[8]) != true) {
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Introduzca un correo electrónico válido'); 
+    }
+
+    if ((formContacto.value[7] == formContacto.value[8]) != true) {
+        return sweetAlert(1, 'warning', 'Información incompleta', 'Verifica que los campos de correo electrónico coincidan.'); 
+    }
+
+    fetch('/update_contacto_personal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formContacto.inputsValue)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se actualizó con éxito.');
+            }
+            else {
+                 sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
+}
+
 
 // FUNCIONES DE LOS ADMINISTRADORES
 function consultar_usuario(idUsuario){
@@ -626,4 +711,26 @@ function actualizar_contrasena_admin() {
     } else {
         return sweetAlert(1, 'warning', 'Información incompleta', 'Las contraseñas no coinciden.'); 
     }
+}
+
+function actualizar_formularios() {
+    var formUpdate = getFormulario('form_Permisos');
+
+    fetch('/actualizar_formularios', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formUpdate.value)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.estado == 1) {
+                sweetAlert(2, 'success', 'Proceso Completado', 'La información se actualizó con éxito.');
+        
+                setTimeout(function () { window.location.href = '/formularios' }, 3000)
+            }
+            else {
+                sweetAlert(2, 'error', 'Acceso denegado', `Error interno del servidor, por favor contactese con el desarrollador.`); 
+            }
+        })
+        .catch(error => console.error('Error:', error))
 }

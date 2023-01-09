@@ -1,0 +1,66 @@
+<h4>Signos 14 días antes</h4>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th style="text-align:center;">N°</th>
+            <th style="text-align:center;">Temperatura</th>
+            <th style="text-align:center;">Frecuencia respiratoria</th>
+            <th style="text-align:center;">Frecuencia Cardiaca</th>
+            <th style="text-align:center;">Saturación de oxígeno</th>
+            <th style="text-align:center;">Tensión arterial</th>
+        </tr>
+    </thead>
+    <tbody>                        
+        {{#if signo}}
+            {{#each data}}
+                <tr>
+                    <td style="text-align:center;">{{id_signo}}</td>
+                    <td style="text-align:center;">{{temperatura}}</td>
+                    <td style="text-align:center;">{{f_respiratoria}}</td>
+                    <td style="text-align:center;">{{f_cardiaca}}</td>
+                    <td style="text-align:center;">{{s_oxigeno}}</td>
+                    <td style="text-align:center;">{{t_arterial}}</td>
+                </tr>
+            {{/each}}   
+        {{else}}
+            <tr>
+                <td colspan="6" style="text-align:center;">Sin registros para mostrar.</td>
+            </tr>
+        {{/if}}
+    </tbody>
+</table>
+
+<br>
+<h4>Signos 14 días después</h4>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th style="text-align:center;">N°</th>
+            <th style="text-align:center;">Temperatura</th>
+            <th style="text-align:center;">Frecuencia respiratoria</th>
+            <th style="text-align:center;">Frecuencia Cardiaca</th>
+            <th style="text-align:center;">Saturación de oxígeno</th>
+            <th style="text-align:center;">Tensión arterial</th>
+        </tr>
+    </thead>
+    <tbody>  
+        {{#if signo2}}
+            {{#each data2}}
+                <tr>
+                    <td style="text-align:center;">{{id_signo}}</td>
+                    <td style="text-align:center;">{{temperatura}}</td>
+                    <td style="text-align:center;">{{f_respiratoria}}</td>
+                    <td style="text-align:center;">{{f_cardiaca}}</td>
+                    <td style="text-align:center;">{{s_oxigeno}}</td>
+                    <td style="text-align:center;">{{t_arterial}}</td>
+                </tr>
+            {{/each}}   
+        {{else}}
+            <tr>
+                <td colspan="6" style="text-align:center;">Sin registros para mostrar.</td>
+            </tr>
+        {{/if}}                      
+    </tbody>
+</table>
